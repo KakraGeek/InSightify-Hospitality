@@ -100,42 +100,45 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
         value: total
       }))
     } else {
-      // For time-series charts (line, area, bar), create proper time-series data
+      // For time-series charts (line, area, bar), create a proper multi-series structure
       const kpisToShow = availableKPIs.slice(0, 5) // Limit to 5 KPIs for readability
       
-      // Get unique dates and sort them
-      const uniqueDates = [...new Set(filteredData.map(item => item.date))].sort()
+      // Create a dataset where each KPI has its own series
+      // We'll use the KPI name as the dataKey and create a flat structure
+      const multiSeriesData = filteredData
+        .filter(item => kpisToShow.includes(item.kpiName))
+        .map(item => ({
+          date: item.date,
+          [item.kpiName]: item.value,
+          department: item.department
+        }))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       
-      // Create time-series data structure
-      const timeSeriesData = uniqueDates.map(date => {
-        const dataPoint: any = { date }
-        
-        // For each KPI, find the value for this date
-        kpisToShow.forEach(kpi => {
-          const matchingData = filteredData.find(item => 
-            item.date === date && item.kpiName === kpi
-          )
-          dataPoint[kpi] = matchingData ? matchingData.value : null
-        })
-        
-        return dataPoint
-      })
-      
-      // Filter out data points where all KPIs are null
-      const finalData = timeSeriesData.filter(dataPoint => 
-        kpisToShow.some(kpi => dataPoint[kpi] !== null)
-      )
-      
-      // Debug logging
-      console.log(`📊 Chart data for ${selectedChartType} chart:`, {
-        kpisToShow,
-        uniqueDates,
-        timeSeriesData: timeSeriesData.slice(0, 3), // Show first 3 for debugging
-        finalData: finalData.slice(0, 3)
-      })
-      
-      return finalData
+      return multiSeriesData
     }
+  }, [filteredData, selectedChartType, availableKPIs])
+
+  // Create separate data series for each KPI (for better line/area chart rendering)
+  const kpiSeriesData = useMemo(() => {
+    if (selectedChartType === 'pie') return []
+    
+    const kpisToShow = availableKPIs.slice(0, 5)
+    
+    return kpisToShow.map(kpiName => {
+      const kpiData = filteredData
+        .filter(item => item.kpiName === kpiName)
+        .map(item => ({
+          date: item.date,
+          value: item.value,
+          kpiName: item.kpiName
+        }))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      
+      return {
+        name: kpiName,
+        data: kpiData
+      }
+    })
   }, [filteredData, selectedChartType, availableKPIs])
 
   // Generate colors for charts
@@ -162,11 +165,13 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
               formatter={(value, name) => [value, name]}
             />
             <Legend />
-            {availableKPIs.slice(0, 5).map((kpi, index) => (
+            {kpiSeriesData.map((series, index) => (
               <Line
-                key={kpi}
+                key={series.name}
                 type="monotone"
-                dataKey={kpi}
+                data={series.data}
+                dataKey="value"
+                name={series.name}
                 stroke={colors[index % colors.length]}
                 strokeWidth={2}
                 dot={{ r: 4 }}
@@ -191,11 +196,13 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
               formatter={(value, name) => [value, name]}
             />
             <Legend />
-            {availableKPIs.slice(0, 5).map((kpi, index) => (
+            {kpiSeriesData.map((series, index) => (
               <Area
-                key={kpi}
+                key={series.name}
                 type="monotone"
-                dataKey={kpi}
+                data={series.data}
+                dataKey="value"
+                name={series.name}
                 fill={colors[index % colors.length]}
                 stroke={colors[index % colors.length]}
                 fillOpacity={0.3}
