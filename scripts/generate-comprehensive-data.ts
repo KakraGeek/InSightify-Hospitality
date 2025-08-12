@@ -1,20 +1,15 @@
-import { writeFileSync, existsSync, readFileSync } from 'fs'
+import { writeFileSync } from 'fs'
 import { join } from 'path'
 
-// Comprehensive data generation for all departments
-const STORAGE_FILE = join(process.cwd(), '.data-storage.json')
-
 interface ProcessedDataPoint {
+  id: string
   department: string
-  dataType: string
+  metric: string
   value: number
-  textValue: string | null
+  unit: string
   date: string
   source: string
-  sourceFile: string
-  metadata: {
-    extractedFrom: string
-  }
+  confidence: number
 }
 
 interface KpiData {
@@ -23,7 +18,7 @@ interface KpiData {
   value: number
   date: string
   period: string
-  unit?: string
+  unit: string
 }
 
 interface StorageData {
@@ -37,305 +32,202 @@ function generateSampleData(): StorageData {
   const dataPoints: ProcessedDataPoint[] = []
   const kpis: KpiData[] = []
 
-  // Front Office Data
-  const frontOfficeData = [
-    { dataType: 'occupancy_rate', value: 87.5, unit: '%' },
-    { dataType: 'available_rooms', value: 50, unit: 'rooms' },
-    { dataType: 'occupied_rooms', value: 43.75, unit: 'rooms' },
-    { dataType: 'room_revenue', value: 13125, unit: 'GHS' },
-    { dataType: 'guest_count', value: 16, unit: 'guests' },
-    { dataType: 'booking_count', value: 12, unit: 'bookings' },
-    { dataType: 'cancellation_count', value: 2, unit: 'cancellations' },
-    { dataType: 'no_show_count', value: 1, unit: 'no-shows' }
+  // Generate data points for all departments
+  const departments = [
+    'Front Office',
+    'Food & Beverage', 
+    'Housekeeping',
+    'Maintenance/Engineering',
+    'Sales & Marketing',
+    'Finance',
+    'HR'
   ]
 
-  frontOfficeData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'Front Office',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'pdf',
-      sourceFile: 'front-office-report.pdf',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
+  // Generate 7 days of data for each department
+  for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+    const currentDate = new Date(now.getTime() - (dayOffset * 24 * 60 * 60 * 1000))
+    
+    departments.forEach((dept, deptIndex) => {
+      // Generate 3-4 data points per department per day
+      const metricsPerDept = dept === 'Front Office' ? 4 : 3
+      
+      for (let i = 0; i < metricsPerDept; i++) {
+        const metricNames = getMetricNamesForDepartment(dept)
+        const metric = metricNames[i % metricNames.length]
+        
+        dataPoints.push({
+          id: `dp_${deptIndex}_${dayOffset}_${i}`,
+          department: dept,
+          metric,
+          value: generateRealisticValue(metric, dept),
+          unit: getUnitForMetric(metric),
+          date: currentDate.toISOString(),
+          source: 'sample_data',
+          confidence: 0.95
+        })
       }
     })
-  })
-
-  // Food & Beverage Data
-  const fBData = [
-    { dataType: 'covers', value: 156, unit: 'guests' },
-    { dataType: 'f_b_revenue', value: 23400, unit: 'GHS' },
-    { dataType: 'food_cost', value: 8190, unit: 'GHS' },
-    { dataType: 'beverage_cost', value: 4680, unit: 'GHS' },
-    { dataType: 'table_turnover', value: 3.2, unit: 'turns/hour' },
-    { dataType: 'waste_cost', value: 1170, unit: 'GHS' },
-    { dataType: 'void_comp_value', value: 468, unit: 'GHS' },
-    { dataType: 'available_seat_hours', value: 120, unit: 'seat-hours' }
-  ]
-
-  fBData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'Food & Beverage',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'csv',
-      sourceFile: 'f-b-daily-report.csv',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
-      }
-    })
-  })
-
-  // Housekeeping Data
-  const housekeepingData = [
-    { dataType: 'rooms_cleaned', value: 45, unit: 'rooms' },
-    { dataType: 'cleaning_time_avg', value: 25, unit: 'minutes' },
-    { dataType: 'inspection_pass_rate', value: 96, unit: '%' },
-    { dataType: 'linen_usage', value: 180, unit: 'pieces' },
-    { dataType: 'amenity_consumption', value: 135, unit: 'items' },
-    { dataType: 'maintenance_requests', value: 3, unit: 'requests' },
-    { dataType: 'cleaning_supplies_cost', value: 450, unit: 'GHS' },
-    { dataType: 'staff_hours', value: 120, unit: 'hours' }
-  ]
-
-  housekeepingData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'Housekeeping',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'xlsx',
-      sourceFile: 'housekeeping-report.xlsx',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
-      }
-    })
-  })
-
-  // Maintenance/Engineering Data
-  const maintenanceData = [
-    { dataType: 'mttr', value: 2.5, unit: 'hours' },
-    { dataType: 'mtbf', value: 168, unit: 'hours' },
-    { dataType: 'pm_compliance_rate', value: 92, unit: '%' },
-    { dataType: 'equipment_uptime', value: 98.5, unit: '%' },
-    { dataType: 'energy_consumption', value: 1250, unit: 'kWh' },
-    { dataType: 'maintenance_cost', value: 3200, unit: 'GHS' },
-    { dataType: 'work_orders_completed', value: 18, unit: 'orders' },
-    { dataType: 'preventive_maintenance_tasks', value: 15, unit: 'tasks' }
-  ]
-
-  maintenanceData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'Maintenance/Engineering',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'pdf',
-      sourceFile: 'maintenance-report.pdf',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
-      }
-    })
-  })
-
-  // Sales & Marketing Data
-  const salesData = [
-    { dataType: 'direct_bookings', value: 28, unit: 'bookings' },
-    { dataType: 'total_bookings', value: 35, unit: 'bookings' },
-    { dataType: 'website_sessions', value: 1250, unit: 'sessions' },
-    { dataType: 'conversion_rate', value: 2.8, unit: '%' },
-    { dataType: 'ad_spend', value: 5000, unit: 'GHS' },
-    { dataType: 'attributed_revenue', value: 87500, unit: 'GHS' },
-    { dataType: 'email_open_rate', value: 24.5, unit: '%' },
-    { dataType: 'social_media_engagement', value: 8.7, unit: '%' }
-  ]
-
-  salesData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'Sales & Marketing',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'csv',
-      sourceFile: 'sales-marketing-report.csv',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
-      }
-    })
-  })
-
-  // Finance Data
-  const financeData = [
-    { dataType: 'total_revenue', value: 156500, unit: 'GHS' },
-    { dataType: 'gross_operating_profit', value: 46950, unit: 'GHS' },
-    { dataType: 'operating_expenses', value: 109550, unit: 'GHS' },
-    { dataType: 'available_rooms', value: 50, unit: 'rooms' },
-    { dataType: 'net_profit_margin', value: 30, unit: '%' },
-    { dataType: 'debt_service_coverage', value: 2.8, unit: 'ratio' },
-    { dataType: 'cash_flow', value: 35200, unit: 'GHS' },
-    { dataType: 'inventory_turnover', value: 4.2, unit: 'times' }
-  ]
-
-  financeData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'Finance',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'xlsx',
-      sourceFile: 'finance-report.xlsx',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
-      }
-    })
-  })
-
-  // HR Data
-  const hrData = [
-    { dataType: 'total_staff', value: 45, unit: 'employees' },
-    { dataType: 'available_rooms', value: 50, unit: 'rooms' },
-    { dataType: 'separations', value: 2, unit: 'employees' },
-    { dataType: 'average_headcount', value: 43, unit: 'employees' },
-    { dataType: 'unplanned_absence_hours', value: 86, unit: 'hours' },
-    { dataType: 'scheduled_hours', value: 1720, unit: 'hours' },
-    { dataType: 'training_hours', value: 215, unit: 'hours' },
-    { dataType: 'employee_satisfaction', value: 4.2, unit: '/5' }
-  ]
-
-  hrData.forEach((item, index) => {
-    dataPoints.push({
-      department: 'HR',
-      dataType: item.dataType,
-      value: item.value,
-      textValue: null,
-      date: new Date(now.getTime() - (index * 24 * 60 * 60 * 1000)).toISOString(),
-      source: 'pdf',
-      sourceFile: 'hr-report.pdf',
-      metadata: {
-        extractedFrom: `${item.dataType}: ${item.value}${item.unit}`
-      }
-    })
-  })
-
-  // Calculate and store KPI values for all departments
-  const calculateKPIs = () => {
-    // Front Office KPIs
-    const occupancyRate = (43.75 / 50) * 100
-    const adr = 13125 / 43.75
-    const revpar = 13125 / 50
-
-    kpis.push(
-      { kpiName: 'Occupancy Rate', department: 'Front Office', value: occupancyRate, date: new Date(now.getTime() - (0 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Average Daily Rate (ADR)', department: 'Front Office', value: adr, date: new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' },
-      { kpiName: 'Revenue per Available Room (RevPAR)', department: 'Front Office', value: revpar, date: new Date(now.getTime() - (2 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' },
-      { kpiName: 'Cancellation Rate', department: 'Front Office', value: (2 / 12) * 100, date: new Date(now.getTime() - (3 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'No-Show Rate', department: 'Front Office', value: (1 / 12) * 100, date: new Date(now.getTime() - (4 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
-    )
-
-    // Food & Beverage KPIs
-    const avgCheck = 23400 / 156
-    const foodCostPercent = (8190 / 23400) * 100
-    const revpash = 23400 / 120
-
-    kpis.push(
-      { kpiName: 'Covers', department: 'Food & Beverage', value: 156, date: new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'count' },
-      { kpiName: 'Average Check', department: 'Food & Beverage', value: avgCheck, date: new Date(now.getTime() - (6 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/guest' },
-      { kpiName: 'Food Cost %', department: 'Food & Beverage', value: foodCostPercent, date: new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'RevPASH', department: 'Food & Beverage', value: revpash, date: new Date(now.getTime() - (8 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/seat-hour' },
-      { kpiName: 'Table Turnover Rate', department: 'Food & Beverage', value: 3.2, date: new Date(now.getTime() - (9 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'turns/hour' }
-    )
-
-    // Housekeeping KPIs
-    kpis.push(
-      { kpiName: 'Rooms Cleaned per Shift', department: 'Housekeeping', value: 45, date: new Date(now.getTime() - (10 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'rooms' },
-      { kpiName: 'Average Cleaning Time', department: 'Housekeeping', value: 25, date: new Date(now.getTime() - (11 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'minutes' },
-      { kpiName: 'Inspection Pass Rate', department: 'Housekeeping', value: 96, date: new Date(now.getTime() - (12 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
-    )
-
-    // Maintenance KPIs
-    kpis.push(
-      { kpiName: 'Mean Time To Repair (MTTR)', department: 'Maintenance/Engineering', value: 2.5, date: new Date(now.getTime() - (13 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'hours' },
-      { kpiName: 'Mean Time Between Failures (MTBF)', department: 'Maintenance/Engineering', value: 168, date: new Date(now.getTime() - (14 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'hours' },
-      { kpiName: 'PM Compliance Rate', department: 'Maintenance/Engineering', value: 92, date: new Date(now.getTime() - (15 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
-    )
-
-    // Sales & Marketing KPIs
-    const directBookingRatio = (28 / 35) * 100
-    const roas = 87500 / 5000
-
-    kpis.push(
-      { kpiName: 'Direct Booking Ratio', department: 'Sales & Marketing', value: directBookingRatio, date: new Date(now.getTime() - (16 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Website Conversion Rate', department: 'Sales & Marketing', value: 2.8, date: new Date(now.getTime() - (17 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Return on Ad Spend (ROAS)', department: 'Sales & Marketing', value: roas, date: new Date(now.getTime() - (18 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'x' }
-    )
-
-    // Finance KPIs
-    const gopMargin = (46950 / 156500) * 100
-    const goppar = 46950 / 50
-    const trevpar = 156500 / 50
-
-    kpis.push(
-      { kpiName: 'Gross Operating Profit (GOP) Margin', department: 'Finance', value: gopMargin, date: new Date(now.getTime() - (19 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'GOPPAR', department: 'Finance', value: goppar, date: new Date(now.getTime() - (20 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' },
-      { kpiName: 'Total RevPAR (TRevPAR)', department: 'Finance', value: trevpar, date: new Date(now.getTime() - (21 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' }
-    )
-
-    // HR KPIs
-    const staffToRoomRatio = 45 / 50
-    const turnoverRate = (2 / 43) * 100
-    const absenteeismRate = (86 / 1720) * 100
-
-    kpis.push(
-      { kpiName: 'Staff-to-Room Ratio', department: 'HR', value: staffToRoomRatio, date: new Date(now.getTime() - (22 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'staff/room' },
-      { kpiName: 'Employee Turnover Rate', department: 'HR', value: turnoverRate, date: new Date(now.getTime() - (23 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Absenteeism Rate', department: 'HR', value: absenteeismRate, date: new Date(now.getTime() - (24 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
-    )
   }
 
-  calculateKPIs()
+  // Calculate and store KPI values for each day
+  for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+    const currentDate = new Date(now.getTime() - (dayOffset * 24 * 60 * 60 * 1000))
+    
+    // Generate KPIs for all departments
+    departments.forEach(dept => {
+      const deptData = dataPoints.filter(dp => 
+        dp.department === dept && 
+        new Date(dp.date).toDateString() === currentDate.toDateString()
+      )
+      
+      if (deptData.length > 0) {
+        // Get all metrics for this department
+        const metrics = getMetricNamesForDepartment(dept)
+        
+        metrics.forEach(metric => {
+          const metricData = deptData.find(dp => dp.metric === metric)
+          if (metricData) {
+            // Create KPI name from metric
+            const kpiName = getKpiNameFromMetric(metric, dept)
+            const unit = getUnitForMetric(metric)
+            
+            kpis.push({
+              kpiName,
+              department: dept,
+              value: metricData.value,
+              date: currentDate.toISOString(),
+              period: 'daily',
+              unit
+            })
+          }
+        })
+      }
+    })
+  }
 
-  return {
-    dataPoints,
-    kpis,
-    lastUpdated: now.toISOString()
+  return { dataPoints, kpis, lastUpdated: now.toISOString() }
+}
+
+function getMetricNamesForDepartment(department: string): string[] {
+  const metrics = {
+    'Front Office': ['Room Occupancy', 'Average Daily Rate', 'Revenue per Available Room', 'Guest Satisfaction'],
+    'Food & Beverage': ['Daily Covers', 'Average Check Amount', 'Food Cost Percentage'],
+    'Housekeeping': ['Rooms Cleaned', 'Cleaning Time per Room', 'Inspection Score'],
+    'Maintenance/Engineering': ['Maintenance Requests', 'Response Time', 'Equipment Uptime'],
+    'Sales & Marketing': ['Direct Bookings', 'Website Traffic', 'Conversion Rate'],
+    'Finance': ['Daily Revenue', 'Operating Costs', 'Profit Margin'],
+    'HR': ['Staff Count', 'Training Hours', 'Employee Satisfaction']
+  }
+  return metrics[department as keyof typeof metrics] || []
+}
+
+function generateRealisticValue(metric: string, department: string): number {
+  const baseValues: Record<string, number> = {
+    'Room Occupancy': 85,
+    'Average Daily Rate': 300,
+    'Revenue per Available Room': 255,
+    'Guest Satisfaction': 4.2,
+    'Daily Covers': 120,
+    'Average Check Amount': 45,
+    'Food Cost Percentage': 28,
+    'Rooms Cleaned': 25,
+    'Cleaning Time per Room': 30,
+    'Inspection Score': 95,
+    'Maintenance Requests': 8,
+    'Response Time': 2.5,
+    'Equipment Uptime': 98,
+    'Direct Bookings': 65,
+    'Website Traffic': 1500,
+    'Conversion Rate': 4.5,
+    'Daily Revenue': 15000,
+    'Operating Costs': 8500,
+    'Profit Margin': 43,
+    'Staff Count': 45,
+    'Training Hours': 120,
+    'Employee Satisfaction': 4.1
+  }
+  
+  const baseValue = baseValues[metric] || 100
+  const variation = (Math.random() - 0.5) * 0.2 // ±10% variation
+  return Math.round(baseValue * (1 + variation) * 100) / 100
+}
+
+function getUnitForMetric(metric: string): string {
+  const unitMap: Record<string, string> = {
+    'Room Occupancy': '%',
+    'Average Daily Rate': 'GHS',
+    'Revenue per Available Room': 'GHS',
+    'Guest Satisfaction': 'rating',
+    'Daily Covers': 'count',
+    'Average Check Amount': 'GHS',
+    'Food Cost Percentage': '%',
+    'Rooms Cleaned': 'rooms',
+    'Cleaning Time per Room': 'minutes',
+    'Inspection Score': '%',
+    'Maintenance Requests': 'count',
+    'Response Time': 'hours',
+    'Equipment Uptime': '%',
+    'Direct Bookings': '%',
+    'Website Traffic': 'visitors',
+    'Conversion Rate': '%',
+    'Daily Revenue': 'GHS',
+    'Operating Costs': 'GHS',
+    'Profit Margin': '%',
+    'Staff Count': 'employees',
+    'Training Hours': 'hours',
+    'Employee Satisfaction': 'rating'
+  }
+  return unitMap[metric] || 'units'
+}
+
+function getKpiNameFromMetric(metric: string, department: string): string {
+  const kpiNameMap: Record<string, string> = {
+    'Room Occupancy': 'Occupancy Rate',
+    'Average Daily Rate': 'Average Daily Rate (ADR)',
+    'Revenue per Available Room': 'Revenue per Available Room (RevPAR)',
+    'Guest Satisfaction': 'Guest Satisfaction Score',
+    'Daily Covers': 'Covers',
+    'Average Check Amount': 'Average Check',
+    'Food Cost Percentage': 'Food Cost %',
+    'Rooms Cleaned': 'Rooms Cleaned per Shift',
+    'Cleaning Time per Room': 'Average Cleaning Time',
+    'Inspection Score': 'Inspection Pass Rate',
+    'Maintenance Requests': 'Maintenance Requests',
+    'Response Time': 'Mean Time To Repair (MTTR)',
+    'Equipment Uptime': 'Equipment Uptime',
+    'Direct Bookings': 'Direct Booking Ratio',
+    'Website Traffic': 'Website Traffic',
+    'Conversion Rate': 'Website Conversion Rate',
+    'Daily Revenue': 'Daily Revenue',
+    'Operating Costs': 'Operating Costs',
+    'Profit Margin': 'Gross Operating Profit (GOP) Margin',
+    'Staff Count': 'Staff Count',
+    'Training Hours': 'Training Hours',
+    'Employee Satisfaction': 'Employee Satisfaction Score'
+  }
+  return kpiNameMap[metric] || metric
+}
+
+async function main() {
+  try {
+    console.log('🚀 Generating comprehensive sample data...')
+    
+    const sampleData = generateSampleData()
+    
+    // Save to data storage file
+    const storagePath = join(process.cwd(), '.data-storage.json')
+    writeFileSync(storagePath, JSON.stringify(sampleData, null, 2))
+    
+    console.log('✅ Sample data generated successfully!')
+    console.log(`📊 Data Points: ${sampleData.dataPoints.length}`)
+    console.log(`📈 KPIs: ${sampleData.kpis.length}`)
+    console.log(`📅 Date Range: ${new Date(sampleData.kpis[0]?.date || '').toLocaleDateString()} to ${new Date(sampleData.kpis[sampleData.kpis.length - 1]?.date || '').toLocaleDateString()}`)
+    console.log(`💾 Saved to: ${storagePath}`)
+    
+  } catch (error) {
+    console.error('❌ Error generating sample data:', error)
+    process.exit(1)
   }
 }
 
-function main() {
-  console.log('🚀 Generating comprehensive sample data for all departments...')
-  
-  const data = generateSampleData()
-  
-  console.log(`📊 Generated ${data.dataPoints.length} data points across all departments`)
-  console.log(`📈 Generated ${data.kpis.length} KPI values across all departments`)
-  
-  // Save to storage file
-  writeFileSync(STORAGE_FILE, JSON.stringify(data, null, 2))
-  
-  console.log(`💾 Data saved to ${STORAGE_FILE}`)
-  console.log('✅ Comprehensive data generation complete!')
-  
-  // Show summary by department
-  const deptSummary = data.kpis.reduce((acc, kpi) => {
-    acc[kpi.department] = (acc[kpi.department] || 0) + 1
-    return acc
-  }, {} as Record<string, number>)
-  
-  console.log('\n📋 KPI Summary by Department:')
-  Object.entries(deptSummary).forEach(([dept, count]) => {
-    console.log(`  ${dept}: ${count} KPIs`)
-  })
-}
-
-if (require.main === module) {
-  main()
-}
+main()

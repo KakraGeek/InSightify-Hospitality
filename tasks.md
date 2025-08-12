@@ -1,4 +1,4 @@
-# InSightify – Hospitality
+#git config user.name "Your Name" InSightify – Hospitality
 ## Single-Agent Implementation Tasks (Notify → Approve → Proceed)
 
 This checklist mirrors `smart-prompts/agent.md` so the single agent can work linearly.
@@ -78,13 +78,13 @@ Each item should ship as a small PR-sized change with code, tests, and docs.
 
 ---
 ## 5) Admin & Settings
-- [ ] 5.1 Admin area
-  - [ ] `/app/(app)/admin/users` CRUD (admin only)
-  - [ ] `/app/(app)/admin/roles` basic role management
-  - [ ] Tests: role checks; 403s
-- [ ] 5.2 App settings
-  - [ ] `/app/(app)/settings` for profile, brand, retention switches
-  - [ ] Persist only settings and report metadata
+- [x] 5.1 Admin area
+  - [x] `/app/(app)/admin/users` CRUD (admin only)
+  - [x] `/app/(app)/admin/roles` basic role management
+  - [x] Tests: role checks; 403s
+- [x] 5.2 App settings
+  - [x] `/app/(app)/settings` for profile, brand, retention switches
+  - [x] Persist only settings and report metadata
 
 ---
 ## 6) Observability, Performance, Security

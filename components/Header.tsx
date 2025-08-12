@@ -8,6 +8,7 @@ import { Button } from './components/ui/button'
 export default async function Header() {
   const session = await getServerSession(authOptions)
   const name = session?.user?.name || session?.user?.email || null
+  const userRole = (session?.user as any)?.role || 'viewer'
 
   return (
     <header className="bg-white text-brand-navy border-b border-brand-gray/30">
@@ -41,6 +42,21 @@ export default async function Header() {
           <Button asChild variant="ghost" className="text-brand-navy hover:bg-brand-light">
             <Link href="/ingest">Upload Data</Link>
           </Button>
+          
+          {/* Admin Links - Only visible to admins */}
+          {userRole === 'admin' && (
+            <Button asChild variant="ghost" className="text-brand-navy hover:bg-brand-light">
+              <Link href="/admin">Admin</Link>
+            </Button>
+          )}
+          
+          {/* Settings Link - Visible to all authenticated users */}
+          {name && (
+            <Button asChild variant="ghost" className="text-brand-navy hover:bg-brand-light">
+              <Link href="/settings">Settings</Link>
+            </Button>
+          )}
+          
           {!name && (
             <Button asChild variant="outline" className="border-brand-gray/40">
               <Link href="/login">Login</Link>
