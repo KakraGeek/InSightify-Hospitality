@@ -79,41 +79,34 @@ export default function ReportsPage() {
     loadCatalog()
   }, [])
 
-  // Mock KPI data for now (in production, this would come from the database)
-  const mockKpiData: KpiDataPoint[] = [
-    {
-      kpiName: 'occupancy_rate',
-      value: 85.5,
-      unit: '%',
-      date: '2024-01-15',
-      department: 'Front Office',
-      confidence: 0.95
-    },
-    {
-      kpiName: 'average_daily_rate',
-      value: 156.75,
-      unit: 'USD',
-      date: '2024-01-15',
-      department: 'Front Office',
-      confidence: 0.92
-    },
-    {
-      kpiName: 'revpar',
-      value: 134.02,
-      unit: 'USD',
-      date: '2024-01-15',
-      department: 'Front Office',
-      confidence: 0.89
-    },
-    {
-      kpiName: 'guest_satisfaction',
-      value: 4.2,
-      unit: '/5',
-      date: '2024-01-15',
-      department: 'Front Office',
-      confidence: 0.88
+  // Load real KPI data from the API
+  const [kpiData, setKpiData] = useState<KpiDataPoint[]>([])
+  const [isLoadingKpiData, setIsLoadingKpiData] = useState(true)
+
+  useEffect(() => {
+    const fetchKpiData = async () => {
+      try {
+        setIsLoadingKpiData(true)
+        const response = await fetch('/api/kpi-data')
+        const result = await response.json()
+        
+        if (result.success) {
+          console.log(`📊 Loaded ${result.count} KPI data points from API`)
+          setKpiData(result.data)
+        } else {
+          console.error('Failed to fetch KPI data:', result.error)
+          setKpiData([])
+        }
+      } catch (error) {
+        console.error('Error fetching KPI data:', error)
+        setKpiData([])
+      } finally {
+        setIsLoadingKpiData(false)
+      }
     }
-  ]
+
+    fetchKpiData()
+  }, [])
   
   // Mock reports data
   const mockReports: Report[] = [
@@ -175,11 +168,21 @@ export default function ReportsPage() {
     }
   }
 
-  const handleExportKPIData = () => {
-    // Import ExportService dynamically
-    import('../../lib/services/exportService').then(({ ExportService }) => {
-      ExportService.exportKPIDataToCSV(mockKpiData)
-    })
+  const handleExportKPIData = async () => {
+    if (kpiData.length === 0) {
+      alert('No KPI data available to export. Please upload some files first.')
+      return
+    }
+    
+    try {
+      // Import ExportService dynamically
+      import('../../lib/services/exportService').then(({ ExportService }) => {
+        ExportService.exportKPIDataToCSV(kpiData)
+      })
+    } catch (error) {
+      console.error('Export failed:', error)
+      alert('Export failed. Please try again.')
+    }
   }
 
   const handleCreateNewReport = () => {
@@ -258,7 +261,30 @@ export default function ReportsPage() {
         </TabsList>
 
         <TabsContent value="dashboard" className="space-y-6">
-          <EnhancedDashboard kpiData={mockKpiData} departments={departments} />
+          {isLoadingKpiData ? (
+            <div className="flex items-center justify-center p-8">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading KPI data...</p>
+              </div>
+            </div>
+          ) : kpiData.length === 0 ? (
+            <div className="text-center p-8 bg-gray-50 rounded-lg">
+              <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No KPI Data Available</h3>
+              <p className="text-gray-600 mb-4">
+                Upload PDF or CSV files to see your hospitality metrics and charts.
+              </p>
+              <Button 
+                onClick={() => setActiveTab('builder')}
+                className="bg-blue-600 text-white hover:bg-blue-700"
+              >
+                Create Report
+              </Button>
+            </div>
+          ) : (
+            <EnhancedDashboard kpiData={kpiData} departments={departments} />
+          )}
         </TabsContent>
 
         <TabsContent value="reports" className="space-y-6">
