@@ -5,35 +5,47 @@
       "dataType": "occupancy_rate",
       "value": 87.5,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
+      "date": "2025-08-12T14:36:26.205Z",
       "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "sourceFile": "front-office-report.pdf",
       "metadata": {
-        "extractedFrom": "Occupancy Rate: 87.5%"
+        "extractedFrom": "occupancy_rate: 87.5%"
       }
     },
     {
       "department": "Front Office",
-      "dataType": "revenue",
+      "dataType": "available_rooms",
+      "value": 50,
+      "textValue": null,
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "front-office-report.pdf",
+      "metadata": {
+        "extractedFrom": "available_rooms: 50rooms"
+      }
+    },
+    {
+      "department": "Front Office",
+      "dataType": "occupied_rooms",
+      "value": 43.75,
+      "textValue": null,
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "front-office-report.pdf",
+      "metadata": {
+        "extractedFrom": "occupied_rooms: 43.75rooms"
+      }
+    },
+    {
+      "department": "Front Office",
+      "dataType": "room_revenue",
       "value": 13125,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
+      "date": "2025-08-09T14:36:26.205Z",
       "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "sourceFile": "front-office-report.pdf",
       "metadata": {
-        "extractedFrom": "Revenue: $13,125.00"
-      }
-    },
-    {
-      "department": "Front Office",
-      "dataType": "revenue",
-      "value": 28.5,
-      "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
-      "metadata": {
-        "extractedFrom": "Revenue: $28.50"
+        "extractedFrom": "room_revenue: 13125GHS"
       }
     },
     {
@@ -41,293 +53,623 @@
       "dataType": "guest_count",
       "value": 16,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
+      "date": "2025-08-08T14:36:26.205Z",
       "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "sourceFile": "front-office-report.pdf",
       "metadata": {
-        "extractedFrom": "Guests: 16"
+        "extractedFrom": "guest_count: 16guests"
       }
     },
     {
       "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 105,
+      "dataType": "booking_count",
+      "value": 12,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
+      "date": "2025-08-07T14:36:26.205Z",
       "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "sourceFile": "front-office-report.pdf",
       "metadata": {
-        "extractedFrom": "Guests: 105"
+        "extractedFrom": "booking_count: 12bookings"
       }
     },
     {
       "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 89,
+      "dataType": "cancellation_count",
+      "value": 2,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
+      "date": "2025-08-06T14:36:26.205Z",
       "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "sourceFile": "front-office-report.pdf",
       "metadata": {
-        "extractedFrom": "Guest Count: 89"
+        "extractedFrom": "cancellation_count: 2cancellations"
       }
     },
     {
       "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 105,
+      "dataType": "no_show_count",
+      "value": 1,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
+      "date": "2025-08-05T14:36:26.205Z",
       "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "sourceFile": "front-office-report.pdf",
       "metadata": {
-        "extractedFrom": "Total Guests: 105"
+        "extractedFrom": "no_show_count: 1no-shows"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "food_beverage_metric",
-      "value": 32,
-      "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
-      "metadata": {
-        "extractedFrom": "Covers: 32"
-      }
-    },
-    {
-      "department": "Front Office",
-      "dataType": "food_beverage_metric",
-      "value": 28,
-      "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
-      "metadata": {
-        "extractedFrom": "Covers: 28"
-      }
-    },
-    {
-      "department": "Front Office",
-      "dataType": "food_beverage_metric",
+      "department": "Food & Beverage",
+      "dataType": "covers",
       "value": 156,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-12T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "extractedFrom": "Covers: 156"
+        "extractedFrom": "covers: 156guests"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "occupancy_rate",
-      "value": 87.5,
+      "department": "Food & Beverage",
+      "dataType": "f_b_revenue",
+      "value": 23400,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "tableIndex": 0,
-        "rowIndex": 0,
-        "column": "Occupancy",
-        "extractedFrom": "table"
+        "extractedFrom": "f_b_revenue: 23400GHS"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "revenue",
-      "value": 13125,
+      "department": "Food & Beverage",
+      "dataType": "food_cost",
+      "value": 8190,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "tableIndex": 0,
-        "rowIndex": 0,
-        "column": "Revenue",
-        "extractedFrom": "table"
+        "extractedFrom": "food_cost: 8190GHS"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 89,
+      "department": "Food & Beverage",
+      "dataType": "beverage_cost",
+      "value": 4680,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-09T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "tableIndex": 0,
-        "rowIndex": 0,
-        "column": "Guests",
-        "extractedFrom": "table"
+        "extractedFrom": "beverage_cost: 4680GHS"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "occupancy_rate",
-      "value": 87.5,
+      "department": "Food & Beverage",
+      "dataType": "table_turnover",
+      "value": 3.2,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-08T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "extractedFrom": "Occupancy Rate: 87.5%"
+        "extractedFrom": "table_turnover: 3.2turns/hour"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "revenue",
-      "value": 13125,
+      "department": "Food & Beverage",
+      "dataType": "waste_cost",
+      "value": 1170,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-07T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "extractedFrom": "Revenue: ₵13,125.00"
+        "extractedFrom": "waste_cost: 1170GHS"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "revenue",
-      "value": 28.5,
+      "department": "Food & Beverage",
+      "dataType": "void_comp_value",
+      "value": 468,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-06T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "extractedFrom": "Revenue: ₵28.50"
+        "extractedFrom": "void_comp_value: 468GHS"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 16,
+      "department": "Food & Beverage",
+      "dataType": "available_seat_hours",
+      "value": 120,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-05T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "f-b-daily-report.csv",
       "metadata": {
-        "extractedFrom": "Guests: 16"
+        "extractedFrom": "available_seat_hours: 120seat-hours"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 105,
+      "department": "Housekeeping",
+      "dataType": "rooms_cleaned",
+      "value": 45,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-12T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
       "metadata": {
-        "extractedFrom": "Guests: 105"
+        "extractedFrom": "rooms_cleaned: 45rooms"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 89,
+      "department": "Housekeeping",
+      "dataType": "cleaning_time_avg",
+      "value": 25,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
       "metadata": {
-        "extractedFrom": "Guest Count: 89"
+        "extractedFrom": "cleaning_time_avg: 25minutes"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 105,
+      "department": "Housekeeping",
+      "dataType": "inspection_pass_rate",
+      "value": 96,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
       "metadata": {
-        "extractedFrom": "Total Guests: 105"
+        "extractedFrom": "inspection_pass_rate: 96%"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "food_beverage_metric",
-      "value": 32,
+      "department": "Housekeeping",
+      "dataType": "linen_usage",
+      "value": 180,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-09T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
       "metadata": {
-        "extractedFrom": "Covers: 32"
+        "extractedFrom": "linen_usage: 180pieces"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "food_beverage_metric",
+      "department": "Housekeeping",
+      "dataType": "amenity_consumption",
+      "value": 135,
+      "textValue": null,
+      "date": "2025-08-08T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
+      "metadata": {
+        "extractedFrom": "amenity_consumption: 135items"
+      }
+    },
+    {
+      "department": "Housekeeping",
+      "dataType": "maintenance_requests",
+      "value": 3,
+      "textValue": null,
+      "date": "2025-08-07T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
+      "metadata": {
+        "extractedFrom": "maintenance_requests: 3requests"
+      }
+    },
+    {
+      "department": "Housekeeping",
+      "dataType": "cleaning_supplies_cost",
+      "value": 450,
+      "textValue": null,
+      "date": "2025-08-06T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
+      "metadata": {
+        "extractedFrom": "cleaning_supplies_cost: 450GHS"
+      }
+    },
+    {
+      "department": "Housekeeping",
+      "dataType": "staff_hours",
+      "value": 120,
+      "textValue": null,
+      "date": "2025-08-05T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "housekeeping-report.xlsx",
+      "metadata": {
+        "extractedFrom": "staff_hours: 120hours"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "mttr",
+      "value": 2.5,
+      "textValue": null,
+      "date": "2025-08-12T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "mttr: 2.5hours"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "mtbf",
+      "value": 168,
+      "textValue": null,
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "mtbf: 168hours"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "pm_compliance_rate",
+      "value": 92,
+      "textValue": null,
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "pm_compliance_rate: 92%"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "equipment_uptime",
+      "value": 98.5,
+      "textValue": null,
+      "date": "2025-08-09T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "equipment_uptime: 98.5%"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "energy_consumption",
+      "value": 1250,
+      "textValue": null,
+      "date": "2025-08-08T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "energy_consumption: 1250kWh"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "maintenance_cost",
+      "value": 3200,
+      "textValue": null,
+      "date": "2025-08-07T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "maintenance_cost: 3200GHS"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "work_orders_completed",
+      "value": 18,
+      "textValue": null,
+      "date": "2025-08-06T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "work_orders_completed: 18orders"
+      }
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "dataType": "preventive_maintenance_tasks",
+      "value": 15,
+      "textValue": null,
+      "date": "2025-08-05T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "maintenance-report.pdf",
+      "metadata": {
+        "extractedFrom": "preventive_maintenance_tasks: 15tasks"
+      }
+    },
+    {
+      "department": "Sales & Marketing",
+      "dataType": "direct_bookings",
       "value": 28,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-12T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
       "metadata": {
-        "extractedFrom": "Covers: 28"
+        "extractedFrom": "direct_bookings: 28bookings"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "food_beverage_metric",
-      "value": 156,
+      "department": "Sales & Marketing",
+      "dataType": "total_bookings",
+      "value": 35,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
       "metadata": {
-        "extractedFrom": "Covers: 156"
+        "extractedFrom": "total_bookings: 35bookings"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "occupancy_rate",
-      "value": 87.5,
+      "department": "Sales & Marketing",
+      "dataType": "website_sessions",
+      "value": 1250,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
       "metadata": {
-        "tableIndex": 0,
-        "rowIndex": 0,
-        "column": "Occupancy",
-        "extractedFrom": "table"
+        "extractedFrom": "website_sessions: 1250sessions"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "revenue",
-      "value": 13125,
+      "department": "Sales & Marketing",
+      "dataType": "conversion_rate",
+      "value": 2.8,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-09T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
       "metadata": {
-        "tableIndex": 0,
-        "rowIndex": 0,
-        "column": "Revenue",
-        "extractedFrom": "table"
+        "extractedFrom": "conversion_rate: 2.8%"
       }
     },
     {
-      "department": "Front Office",
-      "dataType": "guest_count",
-      "value": 89,
+      "department": "Sales & Marketing",
+      "dataType": "ad_spend",
+      "value": 5000,
       "textValue": null,
-      "date": "2024-12-15T00:00:00.000Z",
-      "source": "pdf",
-      "sourceFile": "test-report.pdf",
+      "date": "2025-08-08T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
       "metadata": {
-        "tableIndex": 0,
-        "rowIndex": 0,
-        "column": "Guests",
-        "extractedFrom": "table"
+        "extractedFrom": "ad_spend: 5000GHS"
+      }
+    },
+    {
+      "department": "Sales & Marketing",
+      "dataType": "attributed_revenue",
+      "value": 87500,
+      "textValue": null,
+      "date": "2025-08-07T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
+      "metadata": {
+        "extractedFrom": "attributed_revenue: 87500GHS"
+      }
+    },
+    {
+      "department": "Sales & Marketing",
+      "dataType": "email_open_rate",
+      "value": 24.5,
+      "textValue": null,
+      "date": "2025-08-06T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
+      "metadata": {
+        "extractedFrom": "email_open_rate: 24.5%"
+      }
+    },
+    {
+      "department": "Sales & Marketing",
+      "dataType": "social_media_engagement",
+      "value": 8.7,
+      "textValue": null,
+      "date": "2025-08-05T14:36:26.205Z",
+      "source": "csv",
+      "sourceFile": "sales-marketing-report.csv",
+      "metadata": {
+        "extractedFrom": "social_media_engagement: 8.7%"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "total_revenue",
+      "value": 156500,
+      "textValue": null,
+      "date": "2025-08-12T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "total_revenue: 156500GHS"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "gross_operating_profit",
+      "value": 46950,
+      "textValue": null,
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "gross_operating_profit: 46950GHS"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "operating_expenses",
+      "value": 109550,
+      "textValue": null,
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "operating_expenses: 109550GHS"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "available_rooms",
+      "value": 50,
+      "textValue": null,
+      "date": "2025-08-09T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "available_rooms: 50rooms"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "net_profit_margin",
+      "value": 30,
+      "textValue": null,
+      "date": "2025-08-08T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "net_profit_margin: 30%"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "debt_service_coverage",
+      "value": 2.8,
+      "textValue": null,
+      "date": "2025-08-07T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "debt_service_coverage: 2.8ratio"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "cash_flow",
+      "value": 35200,
+      "textValue": null,
+      "date": "2025-08-06T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "cash_flow: 35200GHS"
+      }
+    },
+    {
+      "department": "Finance",
+      "dataType": "inventory_turnover",
+      "value": 4.2,
+      "textValue": null,
+      "date": "2025-08-05T14:36:26.205Z",
+      "source": "xlsx",
+      "sourceFile": "finance-report.xlsx",
+      "metadata": {
+        "extractedFrom": "inventory_turnover: 4.2times"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "total_staff",
+      "value": 45,
+      "textValue": null,
+      "date": "2025-08-12T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "total_staff: 45employees"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "available_rooms",
+      "value": 50,
+      "textValue": null,
+      "date": "2025-08-11T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "available_rooms: 50rooms"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "separations",
+      "value": 2,
+      "textValue": null,
+      "date": "2025-08-10T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "separations: 2employees"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "average_headcount",
+      "value": 43,
+      "textValue": null,
+      "date": "2025-08-09T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "average_headcount: 43employees"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "unplanned_absence_hours",
+      "value": 86,
+      "textValue": null,
+      "date": "2025-08-08T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "unplanned_absence_hours: 86hours"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "scheduled_hours",
+      "value": 1720,
+      "textValue": null,
+      "date": "2025-08-07T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "scheduled_hours: 1720hours"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "training_hours",
+      "value": 215,
+      "textValue": null,
+      "date": "2025-08-06T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "training_hours: 215hours"
+      }
+    },
+    {
+      "department": "HR",
+      "dataType": "employee_satisfaction",
+      "value": 4.2,
+      "textValue": null,
+      "date": "2025-08-05T14:36:26.205Z",
+      "source": "pdf",
+      "sourceFile": "hr-report.pdf",
+      "metadata": {
+        "extractedFrom": "employee_satisfaction: 4.2/5"
       }
     }
   ],
@@ -336,44 +678,202 @@
       "kpiName": "Occupancy Rate",
       "department": "Front Office",
       "value": 87.5,
-      "date": "2025-08-10T10:43:46.554Z",
-      "period": "daily"
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
     },
     {
       "kpiName": "Average Daily Rate (ADR)",
       "department": "Front Office",
-      "value": 8759.5,
-      "date": "2025-08-10T10:43:46.556Z",
-      "period": "daily"
+      "value": 300,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "GHS/room"
     },
     {
       "kpiName": "Revenue per Available Room (RevPAR)",
       "department": "Front Office",
-      "value": 7664.5625,
-      "date": "2025-08-10T10:43:46.557Z",
-      "period": "daily"
+      "value": 262.5,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "GHS/room"
     },
     {
-      "kpiName": "Occupancy Rate",
+      "kpiName": "Cancellation Rate",
       "department": "Front Office",
-      "value": 87.5,
-      "date": "2025-08-11T07:48:29.741Z",
-      "period": "daily"
+      "value": 16.666666666666664,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
     },
     {
-      "kpiName": "Average Daily Rate (ADR)",
+      "kpiName": "No-Show Rate",
       "department": "Front Office",
-      "value": 8759.5,
-      "date": "2025-08-11T07:48:29.745Z",
-      "period": "daily"
+      "value": 8.333333333333332,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
     },
     {
-      "kpiName": "Revenue per Available Room (RevPAR)",
-      "department": "Front Office",
-      "value": 7664.5625,
-      "date": "2025-08-11T07:48:29.749Z",
-      "period": "daily"
+      "kpiName": "Covers",
+      "department": "Food & Beverage",
+      "value": 156,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "count"
+    },
+    {
+      "kpiName": "Average Check",
+      "department": "Food & Beverage",
+      "value": 150,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "GHS/guest"
+    },
+    {
+      "kpiName": "Food Cost %",
+      "department": "Food & Beverage",
+      "value": 35,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "RevPASH",
+      "department": "Food & Beverage",
+      "value": 195,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "GHS/seat-hour"
+    },
+    {
+      "kpiName": "Table Turnover Rate",
+      "department": "Food & Beverage",
+      "value": 3.2,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "turns/hour"
+    },
+    {
+      "kpiName": "Rooms Cleaned per Shift",
+      "department": "Housekeeping",
+      "value": 45,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "rooms"
+    },
+    {
+      "kpiName": "Average Cleaning Time",
+      "department": "Housekeeping",
+      "value": 25,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "minutes"
+    },
+    {
+      "kpiName": "Inspection Pass Rate",
+      "department": "Housekeeping",
+      "value": 96,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "Mean Time To Repair (MTTR)",
+      "department": "Maintenance/Engineering",
+      "value": 2.5,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "hours"
+    },
+    {
+      "kpiName": "Mean Time Between Failures (MTBF)",
+      "department": "Maintenance/Engineering",
+      "value": 168,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "hours"
+    },
+    {
+      "kpiName": "PM Compliance Rate",
+      "department": "Maintenance/Engineering",
+      "value": 92,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "Direct Booking Ratio",
+      "department": "Sales & Marketing",
+      "value": 80,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "Website Conversion Rate",
+      "department": "Sales & Marketing",
+      "value": 2.8,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "Return on Ad Spend (ROAS)",
+      "department": "Sales & Marketing",
+      "value": 17.5,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "x"
+    },
+    {
+      "kpiName": "Gross Operating Profit (GOP) Margin",
+      "department": "Finance",
+      "value": 30,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "GOPPAR",
+      "department": "Finance",
+      "value": 939,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "GHS/room"
+    },
+    {
+      "kpiName": "Total RevPAR (TRevPAR)",
+      "department": "Finance",
+      "value": 3130,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "GHS/room"
+    },
+    {
+      "kpiName": "Staff-to-Room Ratio",
+      "department": "HR",
+      "value": 0.9,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "staff/room"
+    },
+    {
+      "kpiName": "Employee Turnover Rate",
+      "department": "HR",
+      "value": 4.651162790697675,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
+    },
+    {
+      "kpiName": "Absenteeism Rate",
+      "department": "HR",
+      "value": 5,
+      "date": "2025-08-12T14:36:26.205Z",
+      "period": "daily",
+      "unit": "%"
     }
   ],
-  "lastUpdated": "2025-08-11T07:48:29.731Z"
+  "lastUpdated": "2025-08-12T14:36:26.205Z"
 }
