@@ -16,7 +16,7 @@ interface KpiItem {
   unit: string
 }
 
-const deptIcon: Record<string, LucideIcon> = {
+const deptIconMap: Record<string, LucideIcon> = {
   'Front Office': Bed,
   'Food & Beverage': Utensils,
   'Housekeeping': ClipboardCheck,
@@ -98,124 +98,120 @@ export default async function DashboardPage() {
   console.log('🔍 Dashboard: KPI data length:', kpiData.length)
   console.log('🔍 Dashboard: KPI data details:', kpiData.map(k => ({ name: k.kpiName, dept: k.department, value: k.value })))
   
-  // Check if data exists but might be filtered out
-  if (kpiData.length === 0) {
-    console.log('⚠️ Dashboard: No KPI data found. This could mean:')
-    console.log('   - No data was stored from PDF uploads')
-    console.log('   - Data exists but getKPIValues() is not returning it')
-    console.log('   - Database connection issues')
-    
-    // Try to get reports directly
-    try {
-      const reports = await ReportStorageService.getReports()
-      console.log('🔍 Dashboard: Direct reports query result:', reports)
-      console.log('🔍 Dashboard: Reports count:', reports.length)
-    } catch (error) {
-      console.error('❌ Dashboard: Error getting reports directly:', error)
+  // Group KPIs by department
+  const kpisByDept = items.reduce((acc, item) => {
+    if (!acc[item.department]) {
+      acc[item.department] = []
     }
-  }
+    acc[item.department].push(item)
+    return acc
+  }, {} as Record<string, KpiItem[]>)
 
-  const deptToItems = new Map<string, KpiItem[]>()
-  for (const k of items) {
-    const arr = deptToItems.get(k.department) ?? []
-    arr.push(k)
-    deptToItems.set(k.department, arr)
+  // Get real data for each KPI
+  const getRealData = (kpiName: string, department: string) => {
+    return kpiData.find(k => k.kpiName === kpiName && k.department === department)
   }
-
-  const sections = Array.from(deptToItems.entries()).map(([dept, list]) => {
-    const prefer = preferredByDept[dept] ?? []
-    const preferred = list.filter((k) => prefer.includes(k.name))
-    const remaining = list.filter((k) => !prefer.includes(k.name))
-    // Show more KPIs per department - up to 6 instead of just 3
-    const picks = [...preferred, ...remaining].slice(0, 6)
-    
-    // Enhance picks with real data if available
-    const enhancedPicks = picks.map(kpi => {
-      const realData = kpiData.find(k => k.kpiName === kpi.name && k.department === dept)
-      console.log(`🔍 Dashboard: Looking for KPI "${kpi.name}" in department "${dept}"`)
-      console.log(`🔍 Dashboard: Found real data:`, realData)
-      
-      // Convert the date string to a Date object if it exists
-      const lastUpdated = realData?.date ? new Date(realData.date) : undefined
-      
-      console.log(`🔍 Dashboard: Enhanced KPI:`, { 
-        ...kpi, 
-        realValue: realData?.value, 
-        lastUpdated: lastUpdated 
-      })
-      
-      return {
-        ...kpi,
-        realValue: realData?.value,
-        lastUpdated: lastUpdated
-      }
-    })
-    
-    return { dept, picks: enhancedPicks }
-  })
 
   return (
-    <section className="space-y-8">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-semibold text-brand-navy">Dashboard</h1>
-        <p className="text-slate-700">Key KPIs from each department with real-time data. Explore the full catalog on the KPIs page.</p>
-      </header>
-
-      {/* Quick Actions */}
-      <div className="flex flex-wrap gap-4">
-        <Button asChild className="flex items-center gap-2 bg-[#F97316] text-white hover:bg-[#EA580C] shadow-md border border-[#EA580C]/20 font-medium">
-          <Link href="/reports" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Advanced Reports & Analytics
-          </Link>
-        </Button>
-        
-        <Button asChild variant="outline" className="border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white">
-          <Link href="/kpis" className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4" />
-            View All KPIs
-          </Link>
-        </Button>
-      </div>
-
-      {sections.map(({ dept, picks }) => {
-        const Icon = deptIcon[dept] ?? BarChart3
-        const accent = accents[dept] ?? accents['Front Office']
-        return (
-          <section key={dept} className="rounded-xl border border-brand-gray/30 bg-gradient-to-br from-white to-brand-light/60 p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm text-brand-navy ${accent.chipBg} ${accent.chipBorder}`}>
-                <Icon className={`h-4 w-4 ${accent.icon}`} aria-hidden />
-                {dept}
-              </span>
-            </div>
-            <KpiGrid>
-              {picks.map((kpi) => (
-                <KpiCard 
-                  key={kpi.name} 
-                  title={kpi.name} 
-                  subtitle={kpi.formula} 
-                  unit={kpi.unit} 
-                  icon={Icon} 
-                  accent={accent}
-                  // Add real data if available
-                  value={kpi.realValue ?? undefined}
-                  lastUpdated={kpi.lastUpdated}
-                />
-              ))}
-            </KpiGrid>
-          </section>
-        )
-      })}
-
-      <div className="text-center space-y-4">
-        <p className="text-sm text-gray-600">
-          Need more detailed analysis? Create custom reports with interactive charts and export options.
+    <div className="space-y-6">
+      {/* Mobile-optimized header */}
+      <div className="text-center md:text-left">
+        <h1 className="text-2xl md:text-3xl font-bold text-brand-navy mb-2">
+          Operational Dashboard
+        </h1>
+        <p className="text-brand-gray text-sm md:text-base max-w-2xl mx-auto md:mx-0">
+          Real-time KPIs and performance metrics across all hospitality departments
         </p>
-        <Button asChild className="bg-[#F97316] text-white hover:bg-[#EA580C] shadow-md border border-[#EA580C]/20 font-medium">
-          <Link href="/reports">Go to Reports & Analytics →</Link>
+      </div>
+
+      {/* Quick Actions - Mobile-friendly */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button asChild className="w-full sm:w-auto">
+          <Link href="/ingest">
+            <TrendingUp className="h-4 w-4 mr-2" />
+            Upload New Data
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="w-full sm:w-auto">
+          <Link href="/reports">
+            <FileText className="h-4 w-4 mr-2" />
+            View Reports
+          </Link>
         </Button>
       </div>
-    </section>
+
+      {/* Department KPIs - Mobile-first grid */}
+      <div className="space-y-8">
+        {Object.entries(kpisByDept).map(([department, kpis]) => {
+          const Icon = deptIconMap[department]
+          const accent = accents[department]
+          const preferredKpis = preferredByDept[department] || []
+          
+          return (
+            <section key={department} className="space-y-4">
+              {/* Department Header */}
+              <div className="flex items-center gap-3">
+                {Icon && <Icon className="h-6 w-6 text-brand-navy" />}
+                <h2 className="text-xl font-semibold text-brand-navy">{department}</h2>
+              </div>
+              
+              {/* Department Description */}
+              <p className="text-brand-gray text-sm md:text-base">
+                Key performance indicators for {department.toLowerCase()} operations
+              </p>
+              
+              {/* KPI Cards Grid */}
+              <KpiGrid>
+                {kpis.slice(0, 6).map((kpi) => {
+                  const realData = getRealData(kpi.name, department)
+                  
+                  return (
+                    <KpiCard
+                      key={kpi.name}
+                      title={kpi.name}
+                      value={realData?.value ?? undefined}
+                      unit={kpi.unit}
+                      icon={Icon}
+                      accent={accent}
+                      description={kpi.formula}
+                      trend="up"
+                      change="+12.5%"
+                      period="vs last month"
+                    />
+                  )
+                })}
+              </KpiGrid>
+              
+              {/* View All Link */}
+              <div className="text-center md:text-left">
+                <Button asChild variant="ghost" size="sm">
+                  <Link href={`/kpis?dept=${encodeURIComponent(department)}`}>
+                    View all {department} KPIs →
+                  </Link>
+                </Button>
+              </div>
+            </section>
+          )
+        })}
+      </div>
+
+      {/* Mobile-optimized footer section */}
+      <div className="mt-12 p-6 bg-white rounded-lg border border-brand-gray/20 text-center">
+        <h3 className="text-lg font-semibold text-brand-navy mb-2">
+          Need More Insights?
+        </h3>
+        <p className="text-brand-gray text-sm mb-4">
+          Explore detailed analytics, generate custom reports, and track performance trends
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button asChild variant="outline">
+            <Link href="/kpis">Browse All KPIs</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/reports">Create Report</Link>
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }

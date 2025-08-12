@@ -68,6 +68,51 @@ html, body, #__next {
 body {
   color: var(--text-default);
   background: var(--bg-default);
+  /* Mobile-first typography */
+  font-size: 16px; /* Prevent zoom on iOS */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-first responsive improvements */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  /* Improve touch targets on mobile */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better mobile spacing */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Improve mobile scrolling */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better mobile form elements */
+input, select, textarea {
+  font-size: 16px; /* Prevent zoom on iOS */
+}
+
+/* Mobile-friendly focus states */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 @theme inline {
@@ -112,7 +157,7 @@ body {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
@@ -148,5 +193,44 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Mobile-first utility classes */
+@layer utilities {
+  /* Mobile-first spacing */
+  .mobile-padding {
+    @apply px-4 py-3;
+  }
+  
+  .mobile-margin {
+    @apply mx-4 my-3;
+  }
+  
+  /* Mobile-friendly text sizes */
+  .mobile-text-sm {
+    @apply text-sm md:text-base;
+  }
+  
+  .mobile-text-base {
+    @apply text-base md:text-lg;
+  }
+  
+  .mobile-text-lg {
+    @apply text-lg md:text-xl;
+  }
+  
+  .mobile-text-xl {
+    @apply text-xl md:text-2xl;
+  }
+  
+  /* Mobile-friendly grid layouts */
+  .mobile-grid {
+    @apply grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3;
+  }
+  
+  /* Mobile-friendly flex layouts */
+  .mobile-flex {
+    @apply flex flex-col gap-3 md:flex-row md:gap-4;
   }
 }

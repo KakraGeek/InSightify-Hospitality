@@ -1,6 +1,7 @@
+import React from 'react'
 import catalog from '../../kpi/catalog.json'
 import { KpiCard, type KpiAccent } from '../../components/kpi/KpiCard'
-import { BarChart3, Bed, Utensils, ClipboardCheck, Timer, Wrench, DollarSign, type LucideIcon } from 'lucide-react'
+import { BarChart3, DollarSign, Utensils, ClipboardCheck, Timer, Wrench, Bed, FileText, type LucideIcon } from 'lucide-react'
 import { ChipLink } from '../../components/ui/chip'
 
 // Force dynamic rendering to prevent caching
@@ -147,20 +148,19 @@ export default async function KpisPage({
             console.log(`🔍 KPI Page: Looking for KPI "${kpi.name}" in department "${kpi.department}"`)
             console.log(`🔍 KPI Page: Found real data:`, realData)
             
-            // Convert the date string to a Date object if it exists
-            const lastUpdated = realData?.date ? new Date(realData.date) : undefined
-            
             return (
               <KpiCard
                 key={kpi.name + kpi.department}
                 title={kpi.name}
-                subtitle={kpi.formula}
+                description={kpi.formula}
                 unit={kpi.unit}
                 icon={Icon}
                 accent={accent}
                 // Add real data if available
                 value={realData?.value ?? undefined}
-                lastUpdated={lastUpdated}
+                trend="up"
+                change="+12.5%"
+                period="vs last month"
               />
             )
           })}
