@@ -537,10 +537,9 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
             <Legend 
               verticalAlign="bottom" 
               height={50}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={(value: string, entry: any) => (
+              formatter={(value: string, entry) => (
                 <span className="text-sm font-medium">
-                  {value} ({(entry.payload?.percent * 100 || 0).toFixed(1)}%)
+                  {value} ({(entry.payload?.value || 0).toFixed(1)}%)
                 </span>
               )}
             />

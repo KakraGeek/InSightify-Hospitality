@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { 
   User, Building2, Database, 
   Save, Camera, Trash2, Upload
@@ -211,7 +212,7 @@ export default function SettingsPage() {
                   <div className="flex-shrink-0">
                     <div className="h-20 w-20 rounded-full bg-gray-300 flex items-center justify-center">
                       {profile.avatar ? (
-                        <img src={profile.avatar} alt="Avatar" className="h-20 w-20 rounded-full" />
+                        <Image src={profile.avatar} alt="Avatar" width={80} height={80} className="h-20 w-20 rounded-full object-cover" />
                       ) : (
                         <User className="h-10 w-10 text-gray-600" />
                       )}
@@ -409,7 +410,7 @@ export default function SettingsPage() {
                   <div className="flex-shrink-0">
                     <div className="h-24 w-24 rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
                       {brand.logo ? (
-                        <img src={brand.logo} alt="Logo" className="h-20 w-20 object-contain" />
+                        <Image src={brand.logo} alt="Logo" width={80} height={80} className="h-20 w-20 object-contain" />
                       ) : (
                         <Building2 className="h-12 w-12 text-gray-400" />
                       )}

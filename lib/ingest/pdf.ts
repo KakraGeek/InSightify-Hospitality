@@ -5,7 +5,6 @@ let pdf: typeof import('pdf-parse') | null = null
 if (typeof window === 'undefined') {
   // Server-side only
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     pdf = require('pdf-parse')
   } catch (error) {
     console.warn('pdf-parse not available on server:', error)
