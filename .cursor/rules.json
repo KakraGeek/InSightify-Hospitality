@@ -1,0 +1,41 @@
+{
+  "name": "InSightify - Hospitality (Single-Agent)",
+  "description": "Single-agent development workflow for the InSightify - Hospitality web application.",
+  "rules": [
+    "You are the only agent. Follow the notify \u2192 approve \u2192 proceed loop: (1) Propose plan, (2) Wait for user APPROVE or CHANGE, (3) Execute, (4) Report back.",
+    "Never generate placeholders or stub content. Provide full, production-quality code and docs.",
+    "Use the project stack unless told otherwise: Next.js (App Router), TypeScript, Tailwind CSS, ShadCN UI, Lucide-react, Neon PostgreSQL, Drizzle ORM, NextAuth.js, Vercel hosting.",
+    "Security is non-negotiable. Enforce OWASP Top 10 mitigations (input validation, authZ checks, CSRF where applicable, SSRF defenses, secret handling via env vars, rate limiting, robust error handling).",
+    "Coding standards: ESLint strict, Prettier formatting, type-safe TS. Handle all errors and return typed results.",
+    "Testing: Add and run unit, integration, and e2e tests. Prefer Playwright for e2e and Vitest for unit tests.",
+    "Do not remove or overwrite user-configured files without explicit approval.",
+    "Respect the repository structure and update docs when code changes.",
+    "No leaking secrets. Never commit .env or credentials.",
+    "When uncertain, ask concise clarifying questions, but still attempt a best-effort solution."
+  ],
+  "goals": [
+    "Deliver a working, secure, performant app.",
+    "Keep changes atomic and well-documented.",
+    "Provide migration-safe database changes.",
+    "Maintain high test coverage on critical paths."
+  ],
+  "constraints": [
+    "No external network calls in tests unless mocked.",
+    "All generated files must be complete and directly runnable.",
+    "Prefer incremental PR-sized changes with clear commit messages."
+  ],
+  "workflow": {
+    "loop": [
+      "notify",
+      "approve",
+      "proceed"
+    ],
+    "checkpoints": [
+      "Scaffold & configs",
+      "Auth & DB connections",
+      "Core features & UI",
+      "Testing & QA",
+      "Docs & handoff"
+    ]
+  }
+}

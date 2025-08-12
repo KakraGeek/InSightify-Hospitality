@@ -1,0 +1,14 @@
+# InSightify - Hospitality: MCP servers for development automation (single-agent)
+mcp:
+  servers:
+    playwright:
+      command: npx
+      args:
+        - -y
+        - @microsoft/playwright-mcp
+      env: {}
+      autoStart: true
+  settings:
+    # The agent may call Playwright MCP to generate and run E2E tests.
+    allowNetwork: false
+    headless: true

@@ -1,0 +1,16 @@
+Date,Room_Number,Room_Type,Status,Cleaning_Time,Inspected_By,Issues_Found,Maintenance_Required,Notes
+2024-01-01,101,Standard,Clean,45,John Smith,0,No,Perfect condition
+2024-01-01,102,Standard,Clean,42,Jane Doe,1,No,Minor stain on carpet
+2024-01-01,103,Deluxe,Clean,55,Mike Johnson,0,No,Ready for VIP guest
+2024-01-01,104,Standard,Dirty,0,Unassigned,0,No,Checkout at 11 AM
+2024-01-01,105,Suite,Clean,75,Sarah Wilson,0,No,All amenities stocked
+2024-01-02,101,Standard,Dirty,0,Unassigned,0,No,Checkout at 11 AM
+2024-01-02,102,Standard,Clean,48,Jane Doe,0,No,Refreshed towels
+2024-01-02,103,Deluxe,Clean,52,Mike Johnson,0,No,Minibar restocked
+2024-01-02,104,Standard,Clean,44,John Smith,1,Yes,AC filter needs replacement
+2024-01-02,105,Suite,Clean,78,Sarah Wilson,0,No,All systems working
+2024-01-03,101,Standard,Clean,46,John Smith,0,No,Standard cleaning
+2024-01-03,102,Standard,Clean,45,Jane Doe,0,No,No issues found
+2024-01-03,103,Deluxe,Clean,58,Mike Johnson,0,No,Ready for next guest
+2024-01-03,104,Standard,Clean,47,John Smith,0,No,AC filter replaced
+2024-01-03,105,Suite,Clean,80,Sarah Wilson,0,No,Suite inspection passed

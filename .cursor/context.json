@@ -1,0 +1,35 @@
+{
+  "name": "InSightify - Hospitality",
+  "include": [
+    "app/**/*",
+    "src/**/*",
+    "components/**/*",
+    "lib/**/*",
+    "styles/**/*",
+    "tests/**/*",
+    "prisma/**/*",
+    "migrations/**/*",
+    "smart-prompts/**/*",
+    "mcp/**/*",
+    "*.md",
+    ".env.example",
+    "package.json",
+    "tsconfig.json",
+    "next.config.js",
+    "tailwind.config.ts",
+    "postcss.config.js"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    ".next/**/*",
+    "coverage/**/*",
+    ".vercel/**/*",
+    "*.log",
+    "*.zip",
+    ".env*"
+  ],
+  "notes": [
+    "Keep context minimal to stay focused on current task.",
+    "Add/remove globs as the repo evolves."
+  ]
+}

@@ -1,0 +1,68 @@
+Department,Metric,Value,Unit,Date
+Front Office,Occupancy Rate,85,%,2024-12-15
+Front Office,Guest Count,127,count,2024-12-15
+Front Office,Average Daily Rate,450,GHS,2024-12-15
+Front Office,Revenue per Available Room,382.50,GHS,2024-12-15
+Front Office,Booking Lead Time,14,days,2024-12-15
+Front Office,Cancellation Rate,8.5,%,2024-12-15
+Front Office,No-Show Rate,3.2,%,2024-12-15
+Front Office,Guest Satisfaction,4.6,/5,2024-12-15
+Food & Beverage,Food Cost,32,%,2024-12-15
+Food & Beverage,Beverage Cost,28,%,2024-12-15
+Food & Beverage,Covers,156,count,2024-12-15
+Food & Beverage,Average Check,85,GHS,2024-12-15
+Food & Beverage,Table Turnover,2.8,times,2024-12-15
+Food & Beverage,Waste,4.2,%,2024-12-15
+Food & Beverage,Void/Comp,2.1,%,2024-12-15
+Food & Beverage,Food Revenue,13260,GHS,2024-12-15
+Food & Beverage,Beverage Revenue,8450,GHS,2024-12-15
+Food & Beverage,RevPASH,45,GHS,2024-12-15
+Housekeeping,Rooms Cleaned,127,rooms,2024-12-15
+Housekeeping,Cleaning Time,25,minutes,2024-12-15
+Housekeeping,Room Turnaround,2.5,hours,2024-12-15
+Housekeeping,Inspection Pass Rate,96,%,2024-12-15
+Housekeeping,Out-of-Order,2.1,%,2024-12-15
+Housekeeping,Linen Cost,15.50,GHS,2024-12-15
+Housekeeping,Guest Room Defect Rate,1.8,%,2024-12-15
+Housekeeping,Chemical Cost,8.75,GHS,2024-12-15
+Housekeeping,HK Staff Efficiency,92,%,2024-12-15
+Maintenance/Engineering,Maintenance Cost,45.80,GHS,2024-12-15
+Maintenance/Engineering,Energy Consumption,12.5,kWh,2024-12-15
+Maintenance/Engineering,Equipment Uptime,98.5,%,2024-12-15
+Maintenance/Engineering,Preventive Maintenance,95,%,2024-12-15
+Maintenance/Engineering,Response Time,18,minutes,2024-12-15
+Maintenance/Engineering,Work Order Completion,94,%,2024-12-15
+Maintenance/Engineering,Vendor Performance,4.2,/5,2024-12-15
+Maintenance/Engineering,Safety Incidents,0,count,2024-12-15
+Maintenance/Engineering,Energy Efficiency,87,%,2024-12-15
+Maintenance/Engineering,Maintenance Staff Efficiency,89,%,2024-12-15
+Sales & Marketing,Conversion Rate,23.5,%,2024-12-15
+Sales & Marketing,Lead Generation,45,count,2024-12-15
+Sales & Marketing,Customer Acquisition Cost,125,GHS,2024-12-15
+Sales & Marketing,Email Open Rate,34.2,%,2024-12-15
+Sales & Marketing,Click Through Rate,8.7,%,2024-12-15
+Sales & Marketing,Social Media Engagement,67,%,2024-12-15
+Sales & Marketing,Website Traffic,1250,visitors,2024-12-15
+Sales & Marketing,Booking Conversion,18.9,%,2024-12-15
+Sales & Marketing,Customer Lifetime Value,2450,GHS,2024-12-15
+Sales & Marketing,Marketing ROI,320,%,2024-12-15
+Finance,Profit Margin,28.5,%,2024-12-15
+Finance,Operating Expenses,45680,GHS,2024-12-15
+Finance,Cash Flow,23450,GHS,2024-12-15
+Finance,Debt to Equity,0.45,ratio,2024-12-15
+Finance,Return on Investment,18.7,%,2024-12-15
+Finance,Accounts Receivable,12340,GHS,2024-12-15
+Finance,Accounts Payable,8760,GHS,2024-12-15
+Finance,Inventory Turnover,4.2,times,2024-12-15
+Finance,Working Capital,67890,GHS,2024-12-15
+Finance,Cost per Room,125.50,GHS,2024-12-15
+HR,Employee Turnover,12.5,%,2024-12-15
+HR,Training Completion,87,%,2024-12-15
+HR,Employee Satisfaction,4.3,/5,2024-12-15
+HR,Time to Hire,18,days,2024-12-15
+HR,Cost per Hire,2450,GHS,2024-12-15
+HR,Productivity per Employee,94,%,2024-12-15
+HR,Absenteeism Rate,3.8,%,2024-12-15
+HR,Training Cost,8760,GHS,2024-12-15
+HR,Performance Rating,4.1,/5,2024-12-15
+HR,Retention Rate,87.5,%,2024-12-15

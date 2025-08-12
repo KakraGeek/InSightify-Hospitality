@@ -1,0 +1,335 @@
+{
+  "count": 55,
+  "kpis": [
+    {
+      "department": "Front Office",
+      "name": "Occupancy Rate",
+      "formula": "Occupied Rooms / Available Rooms",
+      "unit": "%"
+    },
+    {
+      "department": "Front Office",
+      "name": "Average Daily Rate (ADR)",
+      "formula": "Room Revenue / Occupied Rooms",
+      "unit": "GHS/room"
+    },
+    {
+      "department": "Front Office",
+      "name": "Revenue per Available Room (RevPAR)",
+      "formula": "Room Revenue / Available Rooms",
+      "unit": "GHS/available room"
+    },
+    {
+      "department": "Front Office",
+      "name": "Revenue Generation Index (RGI)",
+      "formula": "Hotel RevPAR / Market RevPAR",
+      "unit": "index"
+    },
+    {
+      "department": "Front Office",
+      "name": "Average Length of Stay (ALOS)",
+      "formula": "Room Nights / Bookings",
+      "unit": "nights"
+    },
+    {
+      "department": "Front Office",
+      "name": "Booking Lead Time",
+      "formula": "Check-in Date \u2212 Booking Date (avg)",
+      "unit": "days"
+    },
+    {
+      "department": "Front Office",
+      "name": "Cancellation Rate",
+      "formula": "Cancelled Reservations / Total Reservations",
+      "unit": "%"
+    },
+    {
+      "department": "Front Office",
+      "name": "No-Show Rate",
+      "formula": "No\u2011Shows / Confirmed Reservations",
+      "unit": "%"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Covers",
+      "formula": "Total Guests Served",
+      "unit": "count"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Average Check",
+      "formula": "F&B Revenue / Covers",
+      "unit": "GHS/guest"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Food Cost %",
+      "formula": "Food Cost / Food Revenue",
+      "unit": "%"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Beverage Cost %",
+      "formula": "Beverage Cost / Beverage Revenue",
+      "unit": "%"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Table Turnover Rate",
+      "formula": "Covers / (Seats \u00d7 Opening Hours)",
+      "unit": "turns/hour"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "RevPASH",
+      "formula": "F&B Revenue / (Available Seat Hours)",
+      "unit": "GHS/seat-hour"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Waste %",
+      "formula": "Waste Cost / Purchases",
+      "unit": "%"
+    },
+    {
+      "department": "Food & Beverage",
+      "name": "Void/Comp %",
+      "formula": "Voids + Comps Value / F&B Revenue",
+      "unit": "%"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Rooms Cleaned per Shift",
+      "formula": "Rooms Cleaned / HK Staff on Shift",
+      "unit": "rooms/staff-shift"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Average Cleaning Time",
+      "formula": "\u03a3 Room Cleaning Minutes / Rooms Cleaned",
+      "unit": "minutes/room"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Room Turnaround Time",
+      "formula": "Ready Time \u2212 Checkout Time (avg)",
+      "unit": "minutes"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Inspection Pass Rate",
+      "formula": "Rooms Passed on First Inspection / Rooms Inspected",
+      "unit": "%"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Out-of-Order %",
+      "formula": "Out-of-Order Room Nights / Available Room Nights",
+      "unit": "%"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Linen Cost per Occupied Room",
+      "formula": "Linen Cost / Occupied Rooms",
+      "unit": "GHS/room"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Guest Room Defect Rate",
+      "formula": "Defects Found / Rooms Inspected",
+      "unit": "%"
+    },
+    {
+      "department": "Housekeeping",
+      "name": "Chemical Cost per Occupied Room",
+      "formula": "Chemical Cost / Occupied Rooms",
+      "unit": "GHS/room"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Mean Time To Repair (MTTR)",
+      "formula": "\u03a3 Repair Time / # Repairs",
+      "unit": "hours"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Mean Time Between Failures (MTBF)",
+      "formula": "Uptime / # Failures",
+      "unit": "hours"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "PM Compliance Rate",
+      "formula": "Completed PM Tasks / Scheduled PM Tasks",
+      "unit": "%"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Energy per Occupied Room (ECOR)",
+      "formula": "kWh / Occupied Room",
+      "unit": "kWh/room"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Water per Occupied Room (WCOR)",
+      "formula": "m\u00b3 / Occupied Room",
+      "unit": "m\u00b3/room"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Work Order Closure Rate",
+      "formula": "Closed Work Orders / Opened Work Orders (period)",
+      "unit": "%"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Equipment Downtime %",
+      "formula": "Downtime / Total Time",
+      "unit": "%"
+    },
+    {
+      "department": "Maintenance/Engineering",
+      "name": "Reactive:Preventive Ratio",
+      "formula": "Reactive Tasks / Preventive Tasks",
+      "unit": "ratio"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Direct Booking Ratio",
+      "formula": "Direct Bookings / Total Bookings",
+      "unit": "%"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Website Conversion Rate",
+      "formula": "Bookings / Unique Website Sessions",
+      "unit": "%"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Cost per Acquisition (CPA)",
+      "formula": "Marketing Spend / New Bookings",
+      "unit": "GHS/booking"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Return on Ad Spend (ROAS)",
+      "formula": "Attributed Revenue / Ad Spend",
+      "unit": "x"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Forecast Accuracy (MAPE)",
+      "formula": "mean(|Forecast \u2212 Actual| / Actual)",
+      "unit": "%"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Group Booking Conversion Rate",
+      "formula": "Confirmed Group Bookings / Group RFPs",
+      "unit": "%"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Upsell Attach Rate",
+      "formula": "Upsold Add\u2011ons / Eligible Bookings",
+      "unit": "%"
+    },
+    {
+      "department": "Sales & Marketing",
+      "name": "Email CTR",
+      "formula": "Email Clicks / Emails Delivered",
+      "unit": "%"
+    },
+    {
+      "department": "Finance",
+      "name": "Gross Operating Profit (GOP) Margin",
+      "formula": "GOP / Total Revenue",
+      "unit": "%"
+    },
+    {
+      "department": "Finance",
+      "name": "GOPPAR",
+      "formula": "GOP / Available Rooms",
+      "unit": "GHS/available room"
+    },
+    {
+      "department": "Finance",
+      "name": "Total RevPAR (TRevPAR)",
+      "formula": "Total Revenue / Available Rooms",
+      "unit": "GHS/available room"
+    },
+    {
+      "department": "Finance",
+      "name": "Payroll % of Revenue",
+      "formula": "Total Payroll / Total Revenue",
+      "unit": "%"
+    },
+    {
+      "department": "Finance",
+      "name": "Days Sales Outstanding (DSO)",
+      "formula": "(AR / Credit Sales) \u00d7 Days",
+      "unit": "days"
+    },
+    {
+      "department": "Finance",
+      "name": "Inventory Turnover",
+      "formula": "COGS / Average Inventory",
+      "unit": "turns"
+    },
+    {
+      "department": "Finance",
+      "name": "Budget Variance %",
+      "formula": "(Actual \u2212 Budget) / Budget",
+      "unit": "%"
+    },
+    {
+      "department": "Finance",
+      "name": "Break-even Occupancy",
+      "formula": "Fixed Costs / (ADR \u2212 Variable Cost per Room) / Available Rooms",
+      "unit": "%"
+    },
+    {
+      "department": "HR",
+      "name": "Staff-to-Room Ratio",
+      "formula": "Average On\u2011Roll Staff / Available Rooms",
+      "unit": "staff/room"
+    },
+    {
+      "department": "HR",
+      "name": "Overtime %",
+      "formula": "Overtime Hours / Paid Hours",
+      "unit": "%"
+    },
+    {
+      "department": "HR",
+      "name": "Training Hours per FTE",
+      "formula": "Total Training Hours / Average FTEs",
+      "unit": "hours/FTE"
+    },
+    {
+      "department": "HR",
+      "name": "Employee Turnover Rate",
+      "formula": "Separations / Average Headcount",
+      "unit": "%"
+    },
+    {
+      "department": "HR",
+      "name": "Absenteeism Rate",
+      "formula": "Unplanned Absence Hours / Scheduled Hours",
+      "unit": "%"
+    },
+    {
+      "department": "HR",
+      "name": "Employee NPS (eNPS)",
+      "formula": "% Promoters \u2212 % Detractors",
+      "unit": "score"
+    },
+    {
+      "department": "HR",
+      "name": "Productivity per Labor Hour",
+      "formula": "Revenue / Labor Hours",
+      "unit": "GHS/hour"
+    }
+  ]
+}
