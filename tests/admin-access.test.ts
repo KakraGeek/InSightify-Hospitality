@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 
 // Mock NextAuth session
 const mockSession = {
@@ -114,11 +114,11 @@ describe('Admin Access Control', () => {
       const userRole = mockSession.user.role
       
       if (userRole === 'admin') {
-        adminActions.forEach(action => {
+        adminActions.forEach(() => {
           expect(true).toBe(true) // Admin can perform all actions
         })
       } else {
-        adminActions.forEach(action => {
+        adminActions.forEach(() => {
           expect(false).toBe(true) // Non-admin should be denied
         })
       }

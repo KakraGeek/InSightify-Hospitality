@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if user has viewer+ access
-    const userRoles = (session.user as any).roles || []
+    const userRoles = (session.user as { roles?: string[] }).roles || []
     const hasAccess = hasRole(userRoles, ROLES.VIEWER)
     if (!hasAccess) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has analyst+ access
-    const userRoles = (session.user as any).roles || []
+    const userRoles = (session.user as { roles?: string[] }).roles || []
     const hasAccess = hasRole(userRoles, ROLES.ANALYST)
     if (!hasAccess) {
       return NextResponse.json({ error: 'Forbidden - Analyst access required' }, { status: 403 })
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       reportType: reportType || 'custom',
       startDate: new Date(startDate).toISOString().split('T')[0], // Convert to YYYY-MM-DD string
       endDate: new Date(endDate).toISOString().split('T')[0], // Convert to YYYY-MM-DD string
-      createdBy: (session.user as any).id || session.user.email || 'unknown',
+      createdBy: (session.user as { id?: string; email?: string }).id || session.user.email || 'unknown',
       isPublic: isPublic || false,
     })
 
@@ -87,9 +87,7 @@ export async function POST(request: NextRequest) {
 }
 
 // PATCH /api/reports/[id] - Update report (analyst+)
-export async function PATCH(
-  _request: NextRequest
-) {
+export async function PATCH() {
   // This route is handled by /api/reports/[id]/route.ts
   return NextResponse.json({ 
     error: 'Use PATCH /api/reports/[id] to update a report' 
@@ -97,9 +95,7 @@ export async function PATCH(
 }
 
 // DELETE /api/reports/[id] - Delete report (analyst+)
-export async function DELETE(
-  _request: NextRequest
-) {
+export async function DELETE() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
@@ -107,7 +103,7 @@ export async function DELETE(
     }
 
     // Check if user has analyst+ access
-    const userRoles = (session.user as any).roles || []
+    const userRoles = (session.user as { roles?: string[] }).roles || []
     const hasAccess = hasRole(userRoles, ROLES.ANALYST)
     if (!hasAccess) {
       return NextResponse.json({ error: 'Forbidden - Analyst access required' }, { status: 403 })

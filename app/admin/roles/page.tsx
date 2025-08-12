@@ -1,15 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+
+interface ExtendedSession {
+  user?: {
+    name?: string | null
+    email?: string | null
+    image?: string | null
+    role?: string
+  }
+}
 import { 
-  Plus, Edit, Trash2, Shield, Search, Filter, Users, 
-  Eye, Search as SearchIcon, FileText, Settings, BarChart3
+  Plus, Edit, Trash2, Shield, Search, Users, 
+  FileText, Settings, BarChart3, Search as SearchIcon
 } from 'lucide-react'
-import { Button } from '../../components/components/ui/button'
-import { Input } from '../../components/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/components/ui/select'
+import { Button } from '../../../components/components/ui/button'
+import { Input } from '../../../components/components/ui/input'
 
 interface Role {
   id: string
@@ -65,7 +73,7 @@ const AVAILABLE_PERMISSIONS: Permission[] = [
 ]
 
 export default function AdminRolesPage() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession() as { data: ExtendedSession | null, status: string }
   const router = useRouter()
   
   const [roles, setRoles] = useState<Role[]>([])

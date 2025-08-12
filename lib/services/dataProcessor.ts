@@ -1,4 +1,4 @@
-import { parsePDF, PDFParseResult } from '../ingest/pdf'
+import { PDFParseResult } from '../ingest/pdf'
 
 export interface ProcessedDataPoint {
   department: string
@@ -8,7 +8,7 @@ export interface ProcessedDataPoint {
   date: Date
   source: string
   sourceFile: string
-  metadata: any
+  metadata: Record<string, unknown>
 }
 
 export interface ProcessingResult {
@@ -176,7 +176,7 @@ function extractDatesFromText(text: string): Date[] {
           dates.push(date)
           console.log(`🔍 extractDatesFromText: Valid date found: ${date.toISOString().split('T')[0]}`)
         }
-      } catch (_error) {
+      } catch {
         console.log(`⚠️ extractDatesFromText: Error parsing date from match: ${match[0]}`)
       }
     }
@@ -199,108 +199,7 @@ function extractDatesFromText(text: string): Date[] {
   return uniqueDates
 }
 
-/**
- * Helper function to determine department from text context
- */
-function getDepartmentFromContext(text: string, matchText: string): string {
-  // Find the position of this specific match in the text
-  const matchIndex = text.indexOf(matchText)
-  if (matchIndex === -1) return 'Front Office'
-  
-  // Look for department headers in the text before AND after the match
-  const beforeText = text.substring(Math.max(0, matchIndex - 500), matchIndex).toLowerCase()
-  const afterText = text.substring(matchIndex, Math.min(text.length, matchIndex + 500)).toLowerCase()
-  
-  console.log(`🔍 getDepartmentFromContext: Looking for department around match "${matchText}"`)
-  console.log(`🔍 getDepartmentFromContext: Before text preview: "${beforeText.substring(Math.max(0, beforeText.length - 200))}"`)
-  console.log(`🔍 getDepartmentFromContext: After text preview: "${afterText.substring(0, Math.min(200, afterText.length))}"`)
-  
-  // Check for department headers in order of specificity (both with and without "Metrics:")
-  // Look in both before and after text
-  const searchText = beforeText + ' ' + afterText
-  
-  if (searchText.includes('food & beverage:') || searchText.includes('food and beverage:') || 
-      searchText.includes('food & beverage metrics:') || searchText.includes('food and beverage metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found Food & Beverage department`)
-    return 'Food & Beverage'
-  } else if (searchText.includes('housekeeping:') || searchText.includes('housekeeping metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found Housekeeping department`)
-    return 'Housekeeping'
-  } else if (searchText.includes('maintenance/engineering:') || searchText.includes('maintenance:') || searchText.includes('engineering:') ||
-             searchText.includes('maintenance/engineering metrics:') || searchText.includes('maintenance metrics:') || searchText.includes('engineering metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found Maintenance/Engineering department`)
-    return 'Maintenance/Engineering'
-  } else if (searchText.includes('sales & marketing:') || searchText.includes('sales:') || searchText.includes('marketing:') ||
-             searchText.includes('sales & marketing metrics:') || searchText.includes('sales metrics:') || searchText.includes('marketing metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found Sales & Marketing department`)
-    return 'Sales & Marketing'
-  } else if (searchText.includes('finance:') || searchText.includes('financial:') || 
-             searchText.includes('finance metrics:') || searchText.includes('financial metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found Finance department`)
-    return 'Finance'
-  } else if (searchText.includes('hr:') || searchText.includes('human resources:') ||
-             searchText.includes('hr metrics:') || searchText.includes('human resources metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found HR department`)
-    return 'HR'
-  } else if (searchText.includes('front office:') || searchText.includes('front office metrics:')) {
-    console.log(`🔍 getDepartmentFromContext: Found Front Office department`)
-    return 'Front Office'
-  }
-  
-  console.log(`🔍 getDepartmentFromContext: No department header found, falling back to keyword detection`)
-  
-  // If no clear headers found, fall back to keyword-based detection
-  if (searchText.includes('food & beverage') || searchText.includes('food and beverage') || 
-      searchText.includes('restaurant') || searchText.includes('dining') || 
-      searchText.includes('food cost') || searchText.includes('beverage cost') || 
-      searchText.includes('covers') || searchText.includes('average check') || 
-      searchText.includes('table turnover') || searchText.includes('revpash')) {
-    return 'Food & Beverage'
-  } else if (searchText.includes('housekeeping') || searchText.includes('hk') || 
-             searchText.includes('rooms cleaned') || searchText.includes('cleaning time') || 
-             searchText.includes('room turnaround') || searchText.includes('inspection pass') || 
-             searchText.includes('out-of-order') || searchText.includes('linen cost') || 
-             searchText.includes('guest room defect') || searchText.includes('chemical cost') || 
-             searchText.includes('hk staff efficiency')) {
-    return 'Housekeeping'
-  } else if (searchText.includes('maintenance/engineering') || 
-             searchText.includes('maintenance cost') || searchText.includes('energy consumption') || 
-             searchText.includes('equipment uptime') || searchText.includes('preventive maintenance') || 
-             searchText.includes('response time') || searchText.includes('work order completion') || 
-             searchText.includes('vendor performance') || searchText.includes('safety incidents') || 
-             searchText.includes('energy efficiency') || searchText.includes('maintenance staff efficiency')) {
-    return 'Maintenance/Engineering'
-  } else if (searchText.includes('sales & marketing') || 
-             searchText.includes('conversion rate') || searchText.includes('lead generation') || 
-             searchText.includes('customer acquisition cost') || searchText.includes('email open rate') || 
-             searchText.includes('click through rate') || searchText.includes('social media engagement') || 
-             searchText.includes('website traffic') || searchText.includes('booking conversion') || 
-             searchText.includes('customer lifetime value') || searchText.includes('marketing roi')) {
-    return 'Sales & Marketing'
-  } else if (searchText.includes('finance') || searchText.includes('financial') || 
-             searchText.includes('profit margin') || searchText.includes('operating expenses') || 
-             searchText.includes('cash flow') || searchText.includes('debt to equity') || 
-             searchText.includes('return on investment') || searchText.includes('accounts receivable') || 
-             searchText.includes('accounts payable') || searchText.includes('inventory turnover') || 
-             searchText.includes('working capital') || searchText.includes('cost per room')) {
-    return 'Finance'
-  } else if (searchText.includes('hr') || searchText.includes('human resources') || 
-             searchText.includes('employee turnover') || searchText.includes('training completion') || 
-             searchText.includes('employee satisfaction') || searchText.includes('time to hire') || 
-             searchText.includes('cost per hire') || searchText.includes('productivity per employee') || 
-             searchText.includes('absenteeism rate') || searchText.includes('training cost') || 
-             searchText.includes('performance rating') || searchText.includes('retention rate')) {
-    return 'HR'
-  } else if (searchText.includes('front office') || searchText.includes('occupancy') || 
-             searchText.includes('guest count') || searchText.includes('average daily rate') || 
-             searchText.includes('revenue per available room') || searchText.includes('booking lead time') || 
-             searchText.includes('cancellation rate') || searchText.includes('no-show rate') || 
-             searchText.includes('guest satisfaction')) {
-    return 'Front Office'
-  }
-  
-  return 'Front Office'
-}
+
 
 /*
 function extractOccupancyData(
@@ -661,7 +560,7 @@ function extractOtherMetrics(
     let sectionStart = -1
     for (const pattern of section.patterns) {
       // Remove regex syntax for indexOf search
-      const searchText = pattern.replace(/[?\\\/]/g, '')
+      const searchText = pattern.replace(/[?\\/]/g, '')
       const matchIndex = text.toLowerCase().indexOf(searchText.toLowerCase())
       if (matchIndex !== -1) {
         sectionStart = matchIndex

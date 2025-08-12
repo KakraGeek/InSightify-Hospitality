@@ -19,11 +19,12 @@ export async function GET() {
         timestamp: new Date().toISOString()
       }
     })
-  } catch (error: any) {
-    console.error(`❌ Debug endpoint error: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    console.error(`❌ Debug endpoint error: ${errorMessage}`)
     return NextResponse.json({
       success: false,
-      error: error.message
+      error: errorMessage
     }, { status: 500 })
   }
 }

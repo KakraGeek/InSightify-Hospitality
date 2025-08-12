@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 import { config } from 'dotenv'
 import { resolve } from 'path'
-import { readFileSync, writeFileSync } from 'fs'
+
 import * as XLSX from 'xlsx'
 
 // Load environment variables from .env.local
@@ -45,7 +45,7 @@ async function testExcelIngestion() {
     console.log('\n🔍 Testing file reading...')
     
     const xlsxData = XLSX.readFile(xlsxPath)
-    const xlsData = XLSX.readFile(xlsPath)
+
     
     console.log('✅ XLSX file read successfully')
     console.log('✅ XLS file read successfully')
@@ -55,8 +55,10 @@ async function testExcelIngestion() {
     const xlsxJson = XLSX.utils.sheet_to_json(xlsxSheet, { header: 1 })
     
     console.log('\n📊 Sample data from XLSX:')
-    xlsxJson.slice(0, 5).forEach((row: any, index) => {
-      console.log(`  Row ${index}: [${row.join(', ')}]`)
+    xlsxJson.slice(0, 5).forEach((row: unknown, index) => {
+      if (Array.isArray(row) && row.every(item => typeof item === 'string' || typeof item === 'number')) {
+        console.log(`  Row ${index}: [${(row as (string | number)[]).join(', ')}]`)
+      }
     })
     
     console.log('\n🎯 Test files created successfully!')

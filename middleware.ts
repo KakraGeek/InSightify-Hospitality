@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
     }
     
     // Check if user has required role
-    const userRoles: string[] = ((token as any)?.roles as string[]) || []
+    const userRoles: string[] = ((token as { roles?: string[] })?.roles as string[]) || []
     const hasRequiredRole = requiredRoles.some(role => 
       userRoles.includes(role)
     )

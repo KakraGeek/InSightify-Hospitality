@@ -10,7 +10,20 @@ import { parsePDF, isValidPDF } from '../../../lib/ingest/pdf'
 /**
  * Parse CSV data and convert it to the format expected by the storage service
  */
-async function parseCsvForStorage(csvText: string, department: string): Promise<any[]> {
+async function parseCsvForStorage(csvText: string, department: string): Promise<Array<{
+  department: string;
+  dataType: string;
+  value: number | null;
+  textValue: string | null;
+  date: Date;
+  source: string;
+  sourceFile: string;
+  metadata: {
+    extractedFrom: string;
+    unit: string;
+    originalRow: Record<string, string>;
+  };
+}>> {
   try {
     console.log('🔍 parseCsvForStorage: Starting CSV parsing...')
     console.log('🔍 parseCsvForStorage: Input department parameter:', department)
@@ -30,7 +43,7 @@ async function parseCsvForStorage(csvText: string, department: string): Promise<
       const values = line.split(',').map(v => v.trim())
       if (values.length !== headers.length) continue
       
-      const row: any = {}
+      const row: Record<string, string> = {}
       headers.forEach((header, index) => {
         row[header] = values[index]
       })
@@ -97,7 +110,7 @@ async function fetchGDriveFile(link: string) {
     if (!res.ok) throw new Error(`fetch failed ${res.status}`)
     const arrayBuffer = await res.arrayBuffer()
     return new Uint8Array(arrayBuffer)
-  } catch (_e) {
+  } catch {
     return null
   }
 }
@@ -130,7 +143,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing file' }, { status: 400 })
     }
 
-    let report: any = {
+    let report: {
+      status: string;
+      sourceType: string;
+      bytes: number;
+      filename: string | undefined;
+      totalRows: number;
+      validRows: number;
+      invalidRows: number;
+      sampleErrors: string[];
+      message?: string;
+      error?: string;
+      metadata?: Record<string, unknown>;
+    } = {
       status: 'accepted',
       sourceType,
       bytes: 0,
@@ -148,8 +173,21 @@ export async function POST(req: Request) {
           const bytes = file.size
           console.log('🔍 Ingest: Processing CSV file:', file.name, 'Size:', bytes, 'bytes')
           
-          // Validate CSV format
-          const res = await validateCsv(file.stream() as any, parse.data.department)
+          // Validate CSV format - convert ReadableStream to AsyncIterable
+          const stream = file.stream()
+          const asyncIterable = (async function* () {
+            const reader = stream.getReader()
+            try {
+              while (true) {
+                const { done, value } = await reader.read()
+                if (done) break
+                yield value
+              }
+            } finally {
+              reader.releaseLock()
+            }
+          })()
+          const res = await validateCsv(asyncIterable, parse.data.department)
           console.log('🔍 Ingest: CSV validation result:', res)
           
           if (res.validRows > 0) {
@@ -296,9 +334,10 @@ export async function POST(req: Request) {
                 report = { ...report, bytes: buf.byteLength, filename: file.name, error: `Data processing failed: ${processingResult.errors.join(', ')}` }
               }
             }
-          } catch (error: any) {
-            console.log('❌ Ingest: PDF processing error:', error.message)
-            report = { ...report, bytes: buf.byteLength, filename: file.name, error: `PDF processing failed: ${error.message}` }
+          } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+            console.log('❌ Ingest: PDF processing error:', errorMessage)
+            report = { ...report, bytes: buf.byteLength, filename: file.name, error: `PDF processing failed: ${errorMessage}` }
           }
           break
         }
@@ -357,8 +396,9 @@ export async function POST(req: Request) {
               }
             }
           }
-        } catch (error: any) {
-          report = { ...report, bytes: 0, filename: parse.data.link, error: `PDF processing failed: ${error.message}` }
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+          report = { ...report, bytes: 0, filename: parse.data.link, error: `PDF processing failed: ${errorMessage}` }
         }
       }
     }
@@ -369,7 +409,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(report)
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || 'Unexpected error' }, { status: 500 })
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : 'Unexpected error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }

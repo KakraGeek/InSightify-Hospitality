@@ -14,14 +14,28 @@ Sales & Marketing,Booking Lead Time,14.2,2024-01-15
 Human Resources,Employee Turnover Rate,12.5,2024-01-15`
 
 // Mock parseCsvForStorage function for testing
-function parseCsvForStorage(csvText: string, department: string): any[] {
+function parseCsvForStorage(csvText: string): Array<{
+  dataType: string;
+  value: number;
+  date: string;
+  department: string;
+  source: string;
+  sourceFile: string;
+}> {
   const lines = csvText.trim().split('\n')
   const headers = lines[0].split(',')
-  const dataPoints: any[] = []
+  const dataPoints: Array<{
+    dataType: string;
+    value: number;
+    date: string;
+    department: string;
+    source: string;
+    sourceFile: string;
+  }> = []
   
   for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(',')
-    const row: any = {}
+    const row: Record<string, string> = {}
     
     headers.forEach((header, index) => {
       row[header.trim()] = values[index]?.trim() || ''
@@ -47,17 +61,17 @@ async function testCsvUpload() {
   
   try {
     // Test CSV parsing
-    const dataPoints = parseCsvForStorage(mockCsvData, 'Front Office')
+    const dataPoints = parseCsvForStorage(mockCsvData)
     console.log(`\n📊 Parsed ${dataPoints.length} data points from CSV`)
     
     // Show first 10 data points
     console.log('\n📋 Sample data points:')
-    dataPoints.slice(0, 10).forEach((dp: any, index: number) => {
+    dataPoints.slice(0, 10).forEach((dp, index: number) => {
       console.log(`  ${index + 1}. ${dp.department} - ${dp.dataType}: ${dp.value}`)
     })
     
     // Show department distribution
-    const deptCount = dataPoints.reduce((acc: any, dp: any) => {
+    const deptCount = dataPoints.reduce((acc: Record<string, number>, dp) => {
       acc[dp.department] = (acc[dp.department] || 0) + 1
       return acc
     }, {})
@@ -68,7 +82,7 @@ async function testCsvUpload() {
     })
     
     // Show unique data types
-    const uniqueDataTypes = [...new Set(dataPoints.map((dp: any) => dp.dataType))]
+    const uniqueDataTypes = [...new Set(dataPoints.map((dp) => dp.dataType))]
     console.log(`\n📈 Unique KPI types: ${uniqueDataTypes.length}`)
     console.log('Sample types:', uniqueDataTypes.slice(0, 10))
     

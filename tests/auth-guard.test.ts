@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { 
   ROLES, 
   PERMISSIONS, 
@@ -7,15 +7,15 @@ import {
   ROLE_HIERARCHY 
 } from '../lib/auth/guard'
 
-// Mock NextAuth session
-const mockSession = {
-  user: {
-    id: '123',
-    email: 'test@example.com',
-    name: 'Test User',
-    roles: ['admin']
-  }
-}
+// Mock NextAuth session - defined for potential future use
+// const mockSession = {
+//   user: {
+//     id: '123',
+//     email: 'test@example.com',
+//     name: 'Test User',
+//     roles: ['admin']
+//   }
+// }
 
 describe('RBAC Guard System', () => {
   describe('Role Constants', () => {

@@ -37,7 +37,28 @@ export default function IngestPage() {
   const [sourceType, setSourceType] = useState<string>('csv')
   const [file, setFile] = useState<File | null>(null)
   const [link, setLink] = useState('')
-  const [report, setReport] = useState<any>(null)
+  const [report, setReport] = useState<{
+    sourceType: string;
+    filename?: string;
+    bytes?: number;
+    totalRows: number;
+    validRows: number;
+    invalidRows: number;
+    warnings?: string[];
+    sampleErrors?: string[];
+    message?: string;
+    metadata?: {
+      dataQuality?: {
+        completeness?: number;
+        errorRate?: number;
+      };
+      validationSchema?: string;
+      businessRules?: string;
+      pageCount?: number;
+      textLength?: number;
+      tableCount?: number;
+    };
+  } | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -67,8 +88,9 @@ export default function IngestPage() {
       const json = await res.json()
       if (!res.ok) throw new Error(json?.error || 'Ingest failed')
       setReport(json)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
+      setError(errorMessage)
     } finally {
       setBusy(false)
     }
@@ -188,19 +210,19 @@ export default function IngestPage() {
                 <div>
                   <span className="text-slate-600">Completeness:</span>
                   <span className={`ml-2 font-medium ${
-                    report.metadata.dataQuality?.completeness >= 90 ? 'text-green-600' : 
-                    report.metadata.dataQuality?.completeness >= 70 ? 'text-yellow-600' : 'text-red-600'
+                    (report.metadata.dataQuality?.completeness ?? 0) >= 90 ? 'text-green-600' : 
+                    (report.metadata.dataQuality?.completeness ?? 0) >= 70 ? 'text-yellow-600' : 'text-red-600'
                   }`}>
-                    {report.metadata.dataQuality?.completeness?.toFixed(1)}%
+                    {(report.metadata.dataQuality?.completeness ?? 0).toFixed(1)}%
                   </span>
                 </div>
                 <div>
                   <span className="text-slate-600">Error Rate:</span>
                   <span className={`ml-2 font-medium ${
-                    report.metadata.dataQuality?.errorRate <= 5 ? 'text-green-600' : 
-                    report.metadata.dataQuality?.errorRate <= 20 ? 'text-yellow-600' : 'text-red-600'
+                    (report.metadata.dataQuality?.errorRate ?? 0) <= 5 ? 'text-green-600' : 
+                    (report.metadata.dataQuality?.errorRate ?? 0) <= 20 ? 'text-yellow-600' : 'text-red-600'
                   }`}>
-                    {report.metadata.dataQuality?.errorRate?.toFixed(1)}%
+                    {(report.metadata.dataQuality?.errorRate ?? 0).toFixed(1)}%
                   </span>
                 </div>
                 <div>

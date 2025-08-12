@@ -1,6 +1,6 @@
 import catalog from '../../kpi/catalog.json'
 import { KpiCard, type KpiAccent } from '../../components/kpi/KpiCard'
-import { BarChart3, Bed, Utensils, ClipboardCheck, Timer, Wrench, DollarSign } from 'lucide-react'
+import { BarChart3, Bed, Utensils, ClipboardCheck, Timer, Wrench, DollarSign, type LucideIcon } from 'lucide-react'
 import { ChipLink } from '../../components/ui/chip'
 
 // Force dynamic rendering to prevent caching
@@ -14,7 +14,7 @@ interface KpiItem {
   unit: string
 }
 
-const deptIcon: Record<string, any> = {
+const deptIcon: Record<string, LucideIcon> = {
   'Front Office': Bed,
   'Food & Beverage': Utensils,
   'Housekeeping': ClipboardCheck,
@@ -159,7 +159,7 @@ export default async function KpisPage({
                 icon={Icon}
                 accent={accent}
                 // Add real data if available
-                value={realData?.value}
+                value={realData?.value ?? undefined}
                 lastUpdated={lastUpdated}
               />
             )

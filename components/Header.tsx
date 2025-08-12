@@ -8,7 +8,7 @@ import { Button } from './components/ui/button'
 export default async function Header() {
   const session = await getServerSession(authOptions)
   const name = session?.user?.name || session?.user?.email || null
-  const userRole = (session?.user as any)?.role || 'viewer'
+  const userRole = (session?.user as { role?: string })?.role || 'viewer'
 
   return (
     <header className="bg-white text-brand-navy border-b border-brand-gray/30">

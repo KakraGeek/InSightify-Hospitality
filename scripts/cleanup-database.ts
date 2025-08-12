@@ -52,8 +52,9 @@ async function cleanupDatabase() {
           console.log(`⚠️  Table ${table} doesn't exist, skipping`)
         }
         
-      } catch (error: any) {
-        console.log(`❌ Error dropping table ${table}: ${error.message}`)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        console.log(`❌ Error dropping table ${table}: ${errorMessage}`)
       }
     }
     
@@ -71,10 +72,11 @@ async function cleanupDatabase() {
     
     for (const table of expectedTables) {
       try {
-        const result = await db.execute(`SELECT COUNT(*) as count FROM "${table}" LIMIT 1`)
+        await db.execute(`SELECT COUNT(*) as count FROM "${table}" LIMIT 1`)
         console.log(`✅ ${table} - still accessible`)
-      } catch (error: any) {
-        console.log(`❌ ${table} - ERROR: ${error.message}`)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        console.log(`❌ ${table} - ERROR: ${errorMessage}`)
       }
     }
     

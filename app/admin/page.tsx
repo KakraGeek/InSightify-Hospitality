@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { 
   Users, Shield, Settings, BarChart3, FileText, 
-  Database, Activity, AlertTriangle, Clock, TrendingUp,
-  UserPlus, UserCheck, UserX, ShieldCheck, ShieldX
+  Database, Activity, AlertTriangle, Clock,
+  UserPlus, UserCheck, ShieldCheck, ShieldX
 } from 'lucide-react'
 import { Button } from '../../components/components/ui/button'
 
@@ -340,7 +340,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
                 <UserPlus className="h-4 w-4 text-green-600 mr-3" />
-                <span className="text-sm text-gray-700">New user "Hotel Manager" created</span>
+                <span className="text-sm text-gray-700">New user &quot;Hotel Manager&quot; created</span>
               </div>
               <span className="text-xs text-gray-500">2 hours ago</span>
             </div>
@@ -348,7 +348,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
                 <Shield className="h-4 w-4 text-blue-600 mr-3" />
-                <span className="text-sm text-gray-700">Role "manager" permissions updated</span>
+                <span className="text-sm text-gray-700">Role &quot;manager&quot; permissions updated</span>
               </div>
               <span className="text-xs text-gray-500">4 hours ago</span>
             </div>
@@ -364,7 +364,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
                 <UserCheck className="h-4 w-4 text-green-600 mr-3" />
-                <span className="text-sm text-gray-700">User "Data Analyst" logged in</span>
+                <span className="text-sm text-gray-700">User &quot;Data Analyst&quot; logged in</span>
               </div>
               <span className="text-xs text-gray-500">2 days ago</span>
             </div>

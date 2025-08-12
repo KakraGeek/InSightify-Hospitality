@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { KpiEngine, KpiCalculationInput } from '../kpi/engine'
 import { ProcessedDataPoint } from '../lib/services/dataProcessor'
-import { getKPIByName } from '../kpi/definitions'
+
 
 // Mock data for testing
 const mockDataPoints: ProcessedDataPoint[] = [
@@ -175,7 +175,16 @@ describe('KPI Engine', () => {
           // Missing required fields
           date: new Date('2024-01-01')
         }
-      ] as any
+      ] as Array<{
+        department: string;
+        date: Date;
+        dataType?: string;
+        value?: number;
+        textValue?: string | null;
+        source?: string;
+        sourceFile?: string;
+        metadata?: Record<string, unknown>;
+      }>
 
       const invalidInput = { ...testInput, dataPoints: invalidData }
       
@@ -235,7 +244,7 @@ describe('KPI Engine', () => {
 
   describe('Performance', () => {
     it('should handle large datasets efficiently', async () => {
-      const largeDataset = Array.from({ length: 1000 }, (_, i) => ({
+      const largeDataset = Array.from({ length: 1000 }, () => ({
         department: 'Front Office',
         dataType: 'occupancy',
         value: Math.random() * 100,

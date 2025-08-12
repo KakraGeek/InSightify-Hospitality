@@ -14,7 +14,12 @@ interface ExportSection {
   title: string
   kpis: string[]
   chartType: string
-  data?: any[]
+  data?: Array<{
+    date?: string;
+    kpi?: string;
+    value?: string | number;
+    unit?: string;
+  }>
 }
 
 export class ExportService {
@@ -112,7 +117,7 @@ export class ExportService {
       csvRows.push('Section,Date,KPI,Value,Unit')
       data.sections.forEach(section => {
         if (section.data) {
-          section.data.forEach((row: any) => {
+          section.data.forEach((row) => {
             csvRows.push(`"${section.title}","${row.date || ''}","${row.kpi || ''}","${row.value || ''}","${row.unit || ''}"`)
           })
         }
@@ -138,7 +143,7 @@ export class ExportService {
   /**
    * Export KPI data as Excel (CSV format for now)
    */
-  static exportKPIDataToCSV(kpiData: any[]): void {
+  static exportKPIDataToCSV(kpiData: Array<Record<string, unknown>>): void {
     if (kpiData.length === 0) return
     
     const headers = Object.keys(kpiData[0])
@@ -172,7 +177,7 @@ export class ExportService {
   /**
    * Generate chart image for PDF export
    */
-  static async generateChartImage(_chartElement: HTMLElement, _chartType: string): Promise<string> {
+  static async generateChartImage(): Promise<string> {
     // This would use a library like html2canvas or dom-to-image
     // For now, return a placeholder
     return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
@@ -181,15 +186,18 @@ export class ExportService {
   /**
    * Format data for export
    */
-  static formatDataForExport(data: any[], format: 'pdf' | 'csv'): any[] {
+  static formatDataForExport(data: Array<{ date?: string | Date; value?: string | number }>, format: 'pdf' | 'csv'): Array<{ date: string; value: string | number }> {
     if (format === 'csv') {
       return data.map(item => ({
         ...item,
         date: item.date ? new Date(item.date).toLocaleDateString() : '',
-        value: typeof item.value === 'number' ? item.value.toFixed(2) : item.value
+        value: typeof item.value === 'number' ? item.value.toFixed(2) : (item.value || '')
       }))
     }
     
-    return data
+    return data.map(item => ({
+      date: item.date ? new Date(item.date).toLocaleDateString() : '',
+      value: typeof item.value === 'number' ? item.value.toFixed(2) : (item.value || '')
+    }))
   }
 }

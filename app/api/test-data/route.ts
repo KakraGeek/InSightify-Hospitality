@@ -79,11 +79,12 @@ export async function GET() {
         }))
       }
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     console.error('❌ Test endpoint error:', error)
     return NextResponse.json({
       success: false,
-      error: error.message
+      error: errorMessage
     }, { status: 500 })
   }
 }

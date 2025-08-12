@@ -1,10 +1,11 @@
 // Ensure this module only runs on the server side
-let pdf: any = null
+let pdf: typeof import('pdf-parse') | null = null
 
 // Dynamic import to ensure pdf-parse only loads on the server
 if (typeof window === 'undefined') {
   // Server-side only
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     pdf = require('pdf-parse')
   } catch (error) {
     console.warn('pdf-parse not available on server:', error)
@@ -24,7 +25,7 @@ export interface PDFParseResult {
     modDate?: string
   }
   tables: Array<Array<string[]>>
-  structuredData: Record<string, any>
+  structuredData: Record<string, string[] | number[] | number>
   error?: string
 }
 
@@ -61,10 +62,10 @@ export async function parsePDF(
   } = options
 
   try {
-    // Parse PDF with options
-    const data = await pdf(buffer, {
-      max: maxPages,
-      password: password || undefined
+    // Parse PDF with options - convert Uint8Array to Buffer if needed
+    const pdfBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
+    const data = await pdf(pdfBuffer, {
+      max: maxPages
     })
 
     const result: PDFParseResult = {
@@ -99,14 +100,15 @@ export async function parsePDF(
     }
 
     return result
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to parse PDF'
     return {
       text: '',
       pageCount: 0,
       metadata: {},
       tables: [],
       structuredData: {},
-      error: error.message || 'Failed to parse PDF'
+      error: errorMessage
     }
   }
 }
@@ -114,11 +116,11 @@ export async function parsePDF(
 /**
  * Extract structured data from PDF text using common patterns
  */
-function extractStructuredData(text: string): Record<string, any> {
-  const data: Record<string, any> = {}
+function extractStructuredData(text: string): Record<string, string[] | number[] | number> {
+  const data: Record<string, string[] | number[] | number> = {}
   
   // Extract dates
-  const datePattern = /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/g
+  const datePattern = /(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})/g
   const dates = text.match(datePattern)
   if (dates) {
     data.dates = dates.slice(0, 5) // Limit to first 5 dates
@@ -132,10 +134,10 @@ function extractStructuredData(text: string): Record<string, any> {
   }
 
   // Extract currency values (including Ghanaian Cedi ₵)
-  const currencyPattern = /[\$€£¥₵](\d+(?:,\d{3})*(?:\.\d+)?)/g
+  const currencyPattern = /[$€£¥₵](\d+(?:,\d{3})*(?:\.\d+)?)/g
   const currencies = text.match(currencyPattern)
   if (currencies) {
-    data.currencies = currencies.slice(0, 10).map(c => parseFloat(c.replace(/[\$€£¥₵,]/g, '')))
+    data.currencies = currencies.slice(0, 10).map(c => parseFloat(c.replace(/[$€£¥₵,]/g, '')))
   }
 
   // Extract percentages

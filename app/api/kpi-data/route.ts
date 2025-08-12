@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
       return {
         kpiName: kpi.kpiName,
         value: kpi.value || 0,
-        unit: unitMap[kpi.kpiName] || kpi.unit || '',
+        unit: unitMap[kpi.kpiName] || '',
         date: kpi.date ? new Date(kpi.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         department: kpi.department || 'Unknown',
         confidence: 0.95 // Default confidence for now
@@ -84,12 +84,13 @@ export async function GET(request: NextRequest) {
       }
     })
     
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch KPI data'
     console.error('❌ API Error fetching KPI data:', error)
     return NextResponse.json(
       { 
         success: false, 
-        error: error.message || 'Failed to fetch KPI data' 
+        error: errorMessage
       },
       { status: 500 }
     )

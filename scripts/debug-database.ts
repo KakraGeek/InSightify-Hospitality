@@ -26,12 +26,12 @@ async function debugDatabase() {
       if (!acc[item.reportId]) acc[item.reportId] = []
       acc[item.reportId].push(item)
       return acc
-    }, {} as Record<string, any[]>)
+    }, {} as Record<string, typeof allItems>)
     
     Object.entries(itemsByReport).forEach(([reportId, items]) => {
       console.log(`\n  Report ${reportId} has ${items.length} items:`)
       items.slice(0, 5).forEach((item, index) => {
-        console.log(`    ${index + 1}. KPI: "${item.kpiName}", Value: ${item.value}, Department: "${item.department || 'N/A'}"`)
+        console.log(`    ${index + 1}. KPI: "${item.kpiName}", Value: ${item.value}, Category: "${item.kpiCategory}"`)
       })
       if (items.length > 5) {
         console.log(`    ... and ${items.length - 5} more items`)

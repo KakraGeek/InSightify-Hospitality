@@ -36,7 +36,7 @@ export default async function TestDashboardPage() {
         ) : (
           <div className="text-red-500">
             <p>No KPI data available!</p>
-            <p>This means the dashboard won't show real data either.</p>
+            <p>This means the dashboard won&apos;t show real data either.</p>
           </div>
         )}
         
@@ -47,14 +47,15 @@ export default async function TestDashboardPage() {
         </div>
       </div>
     )
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('🔍 Test Dashboard: Error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return (
       <div className="p-8">
         <h1 className="text-2xl font-bold mb-4">Test Dashboard - Error</h1>
         <div className="text-red-500">
           <p>Error loading KPI data:</p>
-          <pre>{error.message}</pre>
+          <pre>{errorMessage}</pre>
         </div>
       </div>
     )

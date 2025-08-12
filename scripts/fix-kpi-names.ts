@@ -1,6 +1,6 @@
 import { getDb } from '../lib/db'
 import { reportItems } from '../db/schema/reports'
-import { eq, inArray } from 'drizzle-orm'
+import { inArray } from 'drizzle-orm'
 
 /**
  * Script to fix existing KPI names in the database
@@ -153,7 +153,6 @@ async function fixKPINames() {
     // Group items by incorrect name for batch updates
     const updatesByIncorrectName: Record<string, string[]> = {}
     itemsToFix.forEach(item => {
-      const correctName = nameMappings[item.kpiName]
       if (!updatesByIncorrectName[item.kpiName]) {
         updatesByIncorrectName[item.kpiName] = []
       }
@@ -172,7 +171,7 @@ async function fixKPINames() {
       const correctName = nameMappings[incorrectName]
       
       try {
-        const result = await db.update(reportItems)
+        await db.update(reportItems)
           .set({ kpiName: correctName })
           .where(inArray(reportItems.id, itemIds))
         

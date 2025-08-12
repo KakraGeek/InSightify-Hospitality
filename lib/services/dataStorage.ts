@@ -8,7 +8,13 @@ const STORAGE_FILE = join(process.cwd(), '.data-storage.json')
 
 interface StorageData {
   dataPoints: ProcessedDataPoint[]
-  kpis: any[]
+  kpis: Array<{
+    kpiName: string;
+    department: string;
+    value: number;
+    date: Date;
+    period: string;
+  }>
   lastUpdated: string
 }
 
@@ -86,9 +92,10 @@ export async function storeProcessedData(
       errors
     }
 
-  } catch (error: any) {
-    console.error(`❌ storeProcessedData error: ${error.message}`)
-    errors.push(`Storage failed: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    console.error(`❌ storeProcessedData error: ${errorMessage}`)
+    errors.push(`Storage failed: ${errorMessage}`)
     return {
       success: false,
       storedCount: 0,
@@ -163,15 +170,22 @@ async function calculateAndStoreKPIs(dataPoints: ProcessedDataPoint[], departmen
     
     console.log(`✅ KPI calculations completed for ${department}`)
     
-  } catch (error: any) {
-    console.error(`❌ KPI calculation failed: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    console.error(`❌ KPI calculation failed: ${errorMessage}`)
   }
 }
 
 /**
  * Get KPI values for dashboard display
  */
-export async function getKPIValues(department?: string): Promise<any[]> {
+export async function getKPIValues(department?: string): Promise<Array<{
+  kpiName: string;
+  department: string;
+  value: number;
+  date: Date;
+  period: string;
+}>> {
   try {
     console.log(`🔍 getKPIValues called for department: ${department || 'all'}`)
     
@@ -197,8 +211,9 @@ export async function getKPIValues(department?: string): Promise<any[]> {
     
     return kpiData
     
-  } catch (error: any) {
-    console.error(`Failed to get KPI values: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    console.error(`Failed to get KPI values: ${errorMessage}`)
     return []
   }
 }
@@ -206,7 +221,7 @@ export async function getKPIValues(department?: string): Promise<any[]> {
 /**
  * Get recent data points for a department
  */
-export async function getRecentData(department: string, limit: number = 10): Promise<any[]> {
+export async function getRecentData(department: string, limit: number = 10): Promise<ProcessedDataPoint[]> {
   try {
     // Load storage and return real data
     const storage = loadStorage()
@@ -225,8 +240,9 @@ export async function getRecentData(department: string, limit: number = 10): Pro
     console.log(`📊 Returning ${departmentData.length} recent data points for ${department}`)
     return departmentData
     
-  } catch (error: any) {
-    console.error(`Failed to get recent data: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    console.error(`Failed to get recent data: ${errorMessage}`)
     return []
   }
 }

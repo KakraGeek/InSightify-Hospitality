@@ -28,8 +28,8 @@ async function debugDepartments() {
     `)
     
     console.log('📊 Departments in reports table:')
-    departmentsResult.rows?.forEach((row: any) => {
-      console.log(`  - "${row.department}": ${row.count} reports`)
+    departmentsResult.rows?.forEach((row: Record<string, unknown>) => {
+      console.log(`  - "${row.department as string}": ${row.count} reports`)
     })
     
     // Check what departments are stored in the report_items table (via join)
@@ -42,8 +42,8 @@ async function debugDepartments() {
     `)
     
     console.log('\n📊 Departments in report_items table (via join):')
-    reportItemsDepartments.rows?.forEach((row: any) => {
-      console.log(`  - "${row.department}": ${row.count} items`)
+    reportItemsDepartments.rows?.forEach((row: Record<string, unknown>) => {
+      console.log(`  - "${row.department as string}": ${row.count} items`)
     })
     
     // Check sample KPI names and their departments
@@ -56,8 +56,8 @@ async function debugDepartments() {
     `)
     
     console.log('\n📊 Sample KPI data by department:')
-    sampleKPIs.rows?.forEach((row: any) => {
-      console.log(`  - "${row.kpi_name}" in "${row.department}": ${row.value}`)
+    sampleKPIs.rows?.forEach((row: Record<string, unknown>) => {
+      console.log(`  - "${row.kpi_name as string}" in "${row.department as string}": ${row.value}`)
     })
     
     // Check what the Dashboard expects vs. what's stored
@@ -73,8 +73,8 @@ async function debugDepartments() {
     ]
     
     expectedDepartments.forEach(expected => {
-      const found = reportItemsDepartments.rows?.find((row: any) => 
-        row.department === expected
+      const found = reportItemsDepartments.rows?.find((row: Record<string, unknown>) => 
+        (row.department as string) === expected
       )
       if (found) {
         console.log(`  ✅ "${expected}": ${found.count} items`)

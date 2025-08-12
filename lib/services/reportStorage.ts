@@ -28,7 +28,7 @@ export interface ReportItemInput {
   sourceFile?: string
   confidence?: number
   notes?: string
-  metadata?: any
+  metadata?: Record<string, unknown>
 }
 
 /**
@@ -89,7 +89,7 @@ export class ReportStorageService {
         metadata: item.metadata,
       }))
       
-      const result = await db.insert(reportItems).values(dbItems)
+      await db.insert(reportItems).values(dbItems)
       console.log(`📊 Added ${items.length} report items`)
       return items.length
     } catch (error) {
@@ -103,7 +103,7 @@ export class ReportStorageService {
    */
   private static async checkForDuplicates(
     dataPoints: ProcessedDataPoint[]
-  ): Promise<{ newData: ProcessedDataPoint[], duplicates: ProcessedDataPoint[], existingData: any[] }> {
+  ): Promise<{ newData: ProcessedDataPoint[], duplicates: ProcessedDataPoint[], existingData: Array<{ kpiName: string; date: string; value: string | null }> }> {
     try {
       if (dataPoints.length === 0) {
         return { newData: [], duplicates: [], existingData: [] }
@@ -142,7 +142,7 @@ export class ReportStorageService {
         const dataDate = new Date(dataPoint.date).toISOString().split('T')[0]
         
         // Check if this KPI already exists for this date and department
-        const isDuplicate = existing.some((item: any) => {
+        const isDuplicate = existing.some((item: { kpiName: string; date: string; value: string | null }) => {
           const itemDate = new Date(item.date).toISOString().split('T')[0]
           return item.kpiName === mappedKpiName && 
                  itemDate === dataDate &&
@@ -263,7 +263,7 @@ export class ReportStorageService {
       let totalDuplicates = 0
       let allDuplicates: ProcessedDataPoint[] = []
       
-      for (const [department, deptDataPoints] of Object.entries(dataByDepartment)) {
+      for (const [, deptDataPoints] of Object.entries(dataByDepartment)) {
         const { duplicates } = await this.checkForDuplicates(deptDataPoints)
         totalDuplicates += duplicates.length
         allDuplicates.push(...duplicates)
@@ -336,7 +336,14 @@ export class ReportStorageService {
   /**
    * Get KPI values for a department
    */
-  static async getKPIValues(department?: string): Promise<any[]> {
+  static async getKPIValues(department?: string): Promise<Array<{
+    kpiName: string;
+    department: string;
+    value: number | null;
+    date: string;
+    unit: string;
+    period: string;
+  }>> {
     try {
       console.log(`🔍 getKPIValues called for department: ${department || 'all'}`)
 
@@ -380,10 +387,14 @@ export class ReportStorageService {
 
         console.log(`🔍 getKPIValues: Query executed, got ${results.length} results`)
         
-        // Apply runtime KPI name mapping to fix incorrect names
+        // Apply runtime KPI name mapping to fix incorrect names and transform data
         const mappedResults = results.map(item => ({
-          ...item,
-          kpiName: this.mapStoredKPIName(item.kpiName)
+          kpiName: this.mapStoredKPIName(item.kpiName),
+          department: item.department,
+          value: item.value ? parseFloat(item.value) : null,
+          date: item.date,
+          unit: item.unit,
+          period: item.period
         }))
         
         return mappedResults
@@ -408,10 +419,14 @@ export class ReportStorageService {
 
         console.log(`🔍 getKPIValues: Query executed, got ${results.length} results`)
         
-        // Apply runtime KPI name mapping to fix incorrect names
+        // Apply runtime KPI name mapping to fix incorrect names and transform data
         const mappedResults = results.map(item => ({
-          ...item,
-          kpiName: this.mapStoredKPIName(item.kpiName)
+          kpiName: this.mapStoredKPIName(item.kpiName),
+          department: item.department,
+          value: item.value ? parseFloat(item.value) : null,
+          date: item.date,
+          unit: item.unit,
+          period: item.period
         }))
         
         return mappedResults
@@ -425,7 +440,15 @@ export class ReportStorageService {
   /**
    * Get recent data for a department
    */
-  static async getRecentData(department: string, limit: number = 10): Promise<any[]> {
+  static async getRecentData(department: string, limit: number = 10): Promise<Array<{
+    id: string;
+    kpiName: string;
+    value: string | null;
+    unit: string;
+    date: string;
+    source: string;
+    createdAt: Date;
+  }>> {
     try {
       const db = getDb()
       const results = await db
@@ -455,7 +478,21 @@ export class ReportStorageService {
   /**
    * Get reports for a department
    */
-  static async getReports(department?: string, limit: number = 20): Promise<any[]> {
+  static async getReports(department?: string, limit: number = 20): Promise<Array<{
+    id: string;
+    title: string;
+    description: string | null;
+    department: string;
+    reportType: string;
+    startDate: string;
+    endDate: string;
+    createdBy: string;
+    isPublic: boolean | null;
+    status: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    metadata?: unknown;
+  }>> {
     try {
       const db = getDb()
       
@@ -990,7 +1027,21 @@ export class ReportStorageService {
   /**
    * Get a specific report by ID
    */
-  static async getReportById(reportId: string): Promise<any> {
+  static async getReportById(reportId: string): Promise<{
+    id: string;
+    title: string;
+    description: string | null;
+    department: string;
+    reportType: string;
+    startDate: string;
+    endDate: string;
+    createdBy: string;
+    isPublic: boolean | null;
+    status: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    metadata?: unknown;
+  } | null> {
     try {
       const db = getDb()
       const [report] = await db.select().from(reports).where(eq(reports.id, reportId))
@@ -1013,7 +1064,7 @@ export class ReportStorageService {
   static async updateReport(reportId: string, updates: Partial<ReportCreationInput>): Promise<boolean> {
     try {
       const db = getDb()
-      const result = await db.update(reports)
+      await db.update(reports)
         .set({
           ...updates,
           updatedAt: new Date(),

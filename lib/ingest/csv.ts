@@ -27,7 +27,7 @@ export async function validateCsv(stream: AsyncIterable<Uint8Array>, department?
       totalRows: parsed.data.length || 0,
       validRows: 0,
       invalidRows: parsed.data.length || 0,
-      sampleErrors: parsed.errors.slice(0, 3).map((e: any) => `Row ${e.row}: ${e.message}`),
+      sampleErrors: parsed.errors.slice(0, 3).map((e: { row?: number; message: string }) => `Row ${e.row || 'unknown'}: ${e.message}`),
       warnings: [],
       metadata: {
         department: department || 'unknown',
@@ -37,7 +37,7 @@ export async function validateCsv(stream: AsyncIterable<Uint8Array>, department?
     }
   }
 
-  const rows = parsed.data as any[]
+  const rows = parsed.data as Array<Record<string, string>>
 
   // If department is not specified (e.g., "All Departments"), accept all rows
   if (!department) {

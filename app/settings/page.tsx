@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { 
-  User, Building2, Shield, Database, Bell, Palette, 
-  Save, Camera, Trash2, Download, Upload, Key
+  User, Building2, Database, 
+  Save, Camera, Trash2, Upload
 } from 'lucide-react'
 import { Button } from '../../components/components/ui/button'
 import { Input } from '../../components/components/ui/input'
@@ -52,7 +52,6 @@ export default function SettingsPage() {
   const router = useRouter()
   
   const [activeTab, setActiveTab] = useState('profile')
-  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   
   const [profile, setProfile] = useState<UserProfile>({
@@ -92,11 +91,12 @@ export default function SettingsPage() {
   // Load user data
   useEffect(() => {
     if (session?.user) {
+      const user = session.user
       setProfile(prev => ({
         ...prev,
-        name: session.user.name || '',
-        email: session.user.email || '',
-        role: (session.user as any).role || 'user'
+        name: user.name || '',
+        email: user.email || '',
+        role: (user as { role?: string }).role || 'user'
       }))
     }
   }, [session])

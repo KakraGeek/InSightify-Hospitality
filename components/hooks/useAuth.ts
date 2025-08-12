@@ -6,7 +6,7 @@ import { ROLES, PERMISSIONS, type Role, type Permission } from '@/lib/auth/guard
 export function useAuth() {
   const { data: session, status, update } = useSession()
   
-  const userRoles = (session?.user as any)?.roles || []
+  const userRoles = (session?.user as { roles?: string[] })?.roles || []
   const isAuthenticated = status === 'authenticated'
   const isLoading = status === 'loading'
   

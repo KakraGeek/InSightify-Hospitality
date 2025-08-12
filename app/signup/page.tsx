@@ -29,8 +29,9 @@ export default function SignupPage() {
       const json = await res.json().catch(() => null)
       if (!res.ok) throw new Error(json?.error || 'Sign up failed')
       setOk(true)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
+      setError(errorMessage)
     } finally {
       setBusy(false)
     }

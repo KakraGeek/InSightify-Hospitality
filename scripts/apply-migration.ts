@@ -35,12 +35,17 @@ async function applyMigration() {
         try {
           await db.execute(statement)
           console.log(`✅ Statement ${i + 1} executed successfully`)
-        } catch (error: any) {
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+          const causeMessage = error instanceof Error && error.cause && typeof error.cause === 'object' && 'message' in error.cause 
+            ? String(error.cause.message) 
+            : ''
+          
           // Check if it's a "table already exists" error
-          if (error.message.includes('already exists') || error.cause?.message?.includes('already exists')) {
+          if (errorMessage.includes('already exists') || causeMessage.includes('already exists')) {
             console.log(`⚠️  Statement ${i + 1} skipped (table already exists)`)
           } else {
-            console.log(`❌ Statement ${i + 1} failed:`, error.message)
+            console.log(`❌ Statement ${i + 1} failed:`, errorMessage)
             throw error
           }
         }
@@ -51,13 +56,13 @@ async function applyMigration() {
     
     // Test the connection by querying one of the new tables
     console.log('🧪 Testing new tables...')
-    const kpiCount = await db.select({ count: sql`count(*)` }).from(sql`kpi_definitions`)
+    await db.select({ count: sql`count(*)` }).from(sql`kpi_definitions`)
     console.log('✅ kpi_definitions table is accessible')
     
-    const reportCount = await db.select({ count: sql`count(*)` }).from(sql`reports`)
+    await db.select({ count: sql`count(*)` }).from(sql`reports`)
     console.log('✅ reports table is accessible')
     
-    const itemCount = await db.select({ count: sql`count(*)` }).from(sql`report_items`)
+    await db.select({ count: sql`count(*)` }).from(sql`report_items`)
     console.log('✅ report_items table is accessible')
     
   } catch (error) {

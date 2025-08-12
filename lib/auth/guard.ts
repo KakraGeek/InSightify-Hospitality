@@ -66,7 +66,7 @@ export async function getSessionWithRoles() {
     return null
   }
   
-  const userRoles = (session.user as any).roles || []
+  const userRoles = (session.user as { roles?: string[] }).roles || []
   return { ...session, userRoles }
 }
 
@@ -112,7 +112,7 @@ export async function requirePermission(permission: Permission) {
 /**
  * Higher-order function for API route protection
  */
-export function withRole<T extends any[], R>(
+export function withRole<T extends unknown[], R>(
   role: Role, 
   handler: (session: Awaited<ReturnType<typeof getSessionWithRoles>>, ...args: T) => Promise<R>
 ) {
@@ -125,7 +125,7 @@ export function withRole<T extends any[], R>(
 /**
  * Higher-order function for API route protection with permissions
  */
-export function withPermission<T extends any[], R>(
+export function withPermission<T extends unknown[], R>(
   permission: Permission,
   handler: (session: Awaited<ReturnType<typeof getSessionWithRoles>>, ...args: T) => Promise<R>
 ) {

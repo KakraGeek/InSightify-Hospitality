@@ -1,15 +1,24 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+
+interface ExtendedSession {
+  user?: {
+    name?: string | null
+    email?: string | null
+    image?: string | null
+    role?: string
+  }
+}
 import { 
-  Plus, Edit, Trash2, UserPlus, Shield, Mail, Calendar,
-  Search, Filter, MoreHorizontal, Eye, EyeOff
+  Plus, Edit, Trash2, UserPlus, Shield,
+  Search, Eye, EyeOff
 } from 'lucide-react'
-import { Button } from '../../components/components/ui/button'
-import { Input } from '../../components/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/components/ui/select'
+import { Button } from '../../../components/components/ui/button'
+import { Input } from '../../../components/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/components/ui/select'
 
 interface User {
   id: string
@@ -29,7 +38,7 @@ interface CreateUserForm {
 }
 
 export default function AdminUsersPage() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession() as { data: ExtendedSession | null, status: string }
   const router = useRouter()
   
   const [users, setUsers] = useState<User[]>([])

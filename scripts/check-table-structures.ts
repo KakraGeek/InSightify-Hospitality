@@ -27,10 +27,11 @@ async function checkTableStructures() {
     console.log('\n📋 Expected Tables (Drizzle Schema):')
     for (const table of expectedTables) {
       try {
-        const result = await db.execute(`SELECT COUNT(*) as count FROM "${table}" LIMIT 1`)
+        await db.execute(`SELECT COUNT(*) as count FROM "${table}" LIMIT 1`)
         console.log(`✅ ${table} - exists and accessible`)
-      } catch (error: any) {
-        console.log(`❌ ${table} - error: ${error.message}`)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        console.log(`❌ ${table} - error: ${errorMessage}`)
       }
     }
     
@@ -47,12 +48,13 @@ async function checkTableStructures() {
         
         if (result.rows && result.rows.length > 0) {
           console.log(`⚠️  ${table} - exists with ${result.rows.length} columns`)
-          console.log(`   Columns: ${result.rows.map((row: any) => row.column_name).join(', ')}`)
+          console.log(`   Columns: ${result.rows.map((row: Record<string, unknown>) => row.column_name as string).join(', ')}`)
         } else {
           console.log(`❌ ${table} - not found`)
         }
-      } catch (error: any) {
-        console.log(`❌ ${table} - error: ${error.message}`)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        console.log(`❌ ${table} - error: ${errorMessage}`)
       }
     }
     

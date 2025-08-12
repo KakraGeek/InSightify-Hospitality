@@ -1,5 +1,5 @@
 import { ProcessedDataPoint } from '../lib/services/dataProcessor'
-import { KpiDefinition, getKPIByName } from './definitions'
+import { KpiDefinition } from './definitions'
 
 export interface KpiCalculationInput {
   dataPoints: ProcessedDataPoint[]
@@ -413,15 +413,15 @@ export class KpiEngine {
         displayName: 'Occupancy Rate',
         description: 'Percentage of available rooms that are occupied',
         department: 'Front Office',
-        category: 'occupancy' as any,
+        category: 'occupancy',
         formula: 'Occupied Rooms / Available Rooms × 100',
         unit: '%',
         targetValue: 85,
         minValue: 0,
         maxValue: 100,
         inputs: ['occupied_rooms', 'available_rooms'],
-        calculationType: 'ratio' as any,
-        timeGranularity: 'daily' as any,
+        calculationType: 'ratio',
+        timeGranularity: 'daily',
         isActive: true,
       },
       {
@@ -429,14 +429,14 @@ export class KpiEngine {
         displayName: 'Average Daily Rate (ADR)',
         description: 'Average revenue earned per occupied room per day',
         department: 'Front Office',
-        category: 'revenue' as any,
+        category: 'revenue',
         formula: 'Total Room Revenue / Number of Occupied Rooms',
         unit: 'GHS/room',
         targetValue: 8000,
         minValue: 0,
         inputs: ['room_revenue', 'occupied_rooms'],
-        calculationType: 'aggregated' as any,
-        timeGranularity: 'daily' as any,
+        calculationType: 'aggregated',
+        timeGranularity: 'daily',
         isActive: true,
       },
       {
@@ -444,14 +444,14 @@ export class KpiEngine {
         displayName: 'Revenue per Available Room (RevPAR)',
         description: 'Total room revenue divided by total available rooms',
         department: 'Front Office',
-        category: 'revenue' as any,
+        category: 'revenue',
         formula: 'Total Room Revenue / Total Available Rooms',
         unit: 'GHS/available room',
         targetValue: 7000,
         minValue: 0,
         inputs: ['room_revenue', 'available_rooms'],
-        calculationType: 'derived' as any,
-        timeGranularity: 'daily' as any,
+        calculationType: 'derived',
+        timeGranularity: 'daily',
         isActive: true,
       }
     ]

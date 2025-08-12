@@ -59,7 +59,7 @@ function generateSampleData(): StorageData {
           id: `dp_${deptIndex}_${dayOffset}_${i}`,
           department: dept,
           metric,
-          value: generateRealisticValue(metric, dept),
+          value: generateRealisticValue(metric),
           unit: getUnitForMetric(metric),
           date: currentDate.toISOString(),
           source: 'sample_data',
@@ -88,7 +88,7 @@ function generateSampleData(): StorageData {
           const metricData = deptData.find(dp => dp.metric === metric)
           if (metricData) {
             // Create KPI name from metric
-            const kpiName = getKpiNameFromMetric(metric, dept)
+            const kpiName = getKpiNameFromMetric(metric)
             const unit = getUnitForMetric(metric)
             
             kpis.push({
@@ -121,7 +121,7 @@ function getMetricNamesForDepartment(department: string): string[] {
   return metrics[department as keyof typeof metrics] || []
 }
 
-function generateRealisticValue(metric: string, department: string): number {
+function generateRealisticValue(metric: string): number {
   const baseValues: Record<string, number> = {
     'Room Occupancy': 85,
     'Average Daily Rate': 300,
@@ -180,7 +180,7 @@ function getUnitForMetric(metric: string): string {
   return unitMap[metric] || 'units'
 }
 
-function getKpiNameFromMetric(metric: string, department: string): string {
+function getKpiNameFromMetric(metric: string): string {
   const kpiNameMap: Record<string, string> = {
     'Room Occupancy': 'Occupancy Rate',
     'Average Daily Rate': 'Average Daily Rate (ADR)',

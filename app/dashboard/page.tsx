@@ -2,7 +2,7 @@ import Link from 'next/link'
 import catalog from '../../kpi/catalog.json'
 import { KpiCard, type KpiAccent } from '../../components/kpi/KpiCard'
 import { KpiGrid } from '../../components/kpi/KpiGrid'
-import { DollarSign, BarChart3, Utensils, ClipboardCheck, Timer, Wrench, Bed, FileText, TrendingUp } from 'lucide-react'
+import { DollarSign, BarChart3, Utensils, ClipboardCheck, Timer, Wrench, Bed, FileText, TrendingUp, type LucideIcon } from 'lucide-react'
 import { Button } from '../../components/components/ui/button'
 
 // Force dynamic rendering to prevent caching
@@ -16,7 +16,7 @@ interface KpiItem {
   unit: string
 }
 
-const deptIcon: Record<string, any> = {
+const deptIcon: Record<string, LucideIcon> = {
   'Front Office': Bed,
   'Food & Beverage': Utensils,
   'Housekeeping': ClipboardCheck,
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
                   icon={Icon} 
                   accent={accent}
                   // Add real data if available
-                  value={kpi.realValue}
+                  value={kpi.realValue ?? undefined}
                   lastUpdated={kpi.lastUpdated}
                 />
               ))}

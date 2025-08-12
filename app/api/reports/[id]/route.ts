@@ -16,7 +16,7 @@ export async function GET(
     }
 
     // Check if user has viewer+ access
-    const userRoles = (session.user as any).roles || []
+    const userRoles = (session.user as { roles?: string[] }).roles || []
     const hasAccess = hasRole(userRoles, ROLES.VIEWER)
     if (!hasAccess) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -48,7 +48,7 @@ export async function PATCH(
     }
 
     // Check if user has analyst+ access
-    const userRoles = (session.user as any).roles || []
+    const userRoles = (session.user as { roles?: string[] }).roles || []
     const hasAccess = hasRole(userRoles, ROLES.ANALYST)
     if (!hasAccess) {
       return NextResponse.json({ error: 'Forbidden - Analyst access required' }, { status: 403 })
@@ -90,7 +90,7 @@ export async function DELETE(
     }
 
     // Check if user has analyst+ access
-    const userRoles = (session.user as any).roles || []
+    const userRoles = (session.user as { roles?: string[] }).roles || []
     const hasAccess = hasRole(userRoles, ROLES.ANALYST)
     if (!hasAccess) {
       return NextResponse.json({ error: 'Forbidden - Analyst access required' }, { status: 403 })

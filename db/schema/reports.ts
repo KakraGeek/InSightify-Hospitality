@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, integer, decimal, jsonb, date, boolean } from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, uuid, decimal, jsonb, date, boolean } from 'drizzle-orm/pg-core'
 import { users } from './users'
 import { relations } from 'drizzle-orm'
 
@@ -95,6 +95,6 @@ export const reportSharesRelations = relations(reportShares, ({ one }) => ({
   }),
 }))
 
-export const kpiDefinitionsRelations = relations(kpiDefinitions, ({ many }) => ({
+export const kpiDefinitionsRelations = relations(kpiDefinitions, () => ({
   // Can be referenced by report items
 }))

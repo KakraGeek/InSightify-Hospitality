@@ -157,7 +157,7 @@ export const DepartmentSchemas = {
 export type DepartmentType = keyof typeof DepartmentSchemas
 
 // Generic schema for unknown departments
-export const GenericSchema = z.record(z.string(), z.any())
+export const GenericSchema = z.record(z.string(), z.unknown())
 
 // Function to get schema for a specific department
 export function getSchemaForDepartment(department: string) {
@@ -171,8 +171,8 @@ export function validateDataWithSchema<T>(data: T[], schema: z.ZodSchema, depart
     validRows: 0,
     invalidRows: 0,
     totalRows: data.length,
-    errors: [] as Array<{ row: number; field: string; message: string; value: any }>,
-    warnings: [] as Array<{ row: number; field: string; message: string; value: any }>
+    errors: [] as Array<{ row: number; field: string; message: string; value: unknown }>,
+    warnings: [] as Array<{ row: number; field: string; message: string; value: unknown }>
   }
 
   data.forEach((row, index) => {
@@ -182,8 +182,8 @@ export function validateDataWithSchema<T>(data: T[], schema: z.ZodSchema, depart
       
       // Additional business logic warnings
       if (department === 'front-office') {
-        const frontOfficeRow = validated as any
-        if (frontOfficeRow.Occupancy_Rate > 95) {
+        const frontOfficeRow = validated as { Occupancy_Rate?: number }
+        if (frontOfficeRow.Occupancy_Rate && frontOfficeRow.Occupancy_Rate > 95) {
           results.warnings.push({
             row: index + 1,
             field: 'Occupancy_Rate',
@@ -194,8 +194,8 @@ export function validateDataWithSchema<T>(data: T[], schema: z.ZodSchema, depart
       }
       
       if (department === 'food-beverage') {
-        const fbRow = validated as any
-        if (fbRow.GP_Percentage < 50) {
+        const fbRow = validated as { GP_Percentage?: number }
+        if (fbRow.GP_Percentage && fbRow.GP_Percentage < 50) {
           results.warnings.push({
             row: index + 1,
             field: 'GP_Percentage',
@@ -205,11 +205,11 @@ export function validateDataWithSchema<T>(data: T[], schema: z.ZodSchema, depart
         }
       }
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       results.invalidRows++
       
-      if (error.errors) {
-        error.errors.forEach((err: any) => {
+      if (error && typeof error === 'object' && 'errors' in error && Array.isArray((error as { errors: unknown[] }).errors)) {
+        (error as { errors: Array<{ path: string[]; message: string; input: unknown }> }).errors.forEach((err) => {
           results.errors.push({
             row: index + 1,
             field: err.path.join('.'),
@@ -218,10 +218,11 @@ export function validateDataWithSchema<T>(data: T[], schema: z.ZodSchema, depart
           })
         })
       } else {
+        const errorMessage = error instanceof Error ? error.message : 'Validation failed'
         results.errors.push({
           row: index + 1,
           field: 'unknown',
-          message: error.message || 'Validation failed',
+          message: errorMessage,
           value: row
         })
       }

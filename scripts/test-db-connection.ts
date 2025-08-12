@@ -36,8 +36,8 @@ async function testDatabaseConnection() {
     
     console.log('📊 Available tables:')
     if (tablesResult.rows) {
-      tablesResult.rows.forEach((row: any) => {
-        console.log(`  - ${row.table_name}`)
+      tablesResult.rows.forEach((row: Record<string, unknown>) => {
+        console.log(`  - ${row.table_name as string}`)
       })
     } else {
       console.log('  No tables found or error accessing table list')

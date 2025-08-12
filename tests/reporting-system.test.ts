@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { ExportService } from '../lib/services/exportService'
+
 
 // Mock DOM elements for testing
 const mockCreateElement = vi.fn()
@@ -140,15 +140,15 @@ describe('Reporting System - Task 4', () => {
       }
       
       // Mock jsPDF
-      const mockJsPDF = {
-        setFontSize: vi.fn(),
-        setFont: vi.fn(),
-        text: vi.fn(),
-        addPage: vi.fn(),
-        getNumberOfPages: vi.fn(() => 1),
-        setPage: vi.fn(),
-        save: vi.fn()
-      }
+      // const mockJsPDF = {
+      //   setFontSize: vi.fn(),
+      //   setFont: vi.fn(),
+      //   text: vi.fn(),
+      //   addPage: vi.fn(),
+      //   getNumberOfPages: vi.fn(() => 1),
+      //   setPage: vi.fn(),
+      //   save: vi.fn()
+      // }
       
       // This would test the actual PDF generation
       expect(testData.title).toBe('Test Report')

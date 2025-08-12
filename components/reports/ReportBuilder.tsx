@@ -70,7 +70,7 @@ export function ReportBuilder({
     id: crypto.randomUUID(),
     title: '',
     description: '',
-    department: undefined as any, // Use undefined instead of empty string
+    department: '', // Use empty string initially
     startDate: new Date().toISOString().split('T')[0],
     endDate: new Date().toISOString().split('T')[0],
     sections: [],
@@ -257,11 +257,11 @@ export function ReportBuilder({
         {report.sections.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <BarChart3 className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p>No sections added yet. Click "Add Section" to get started.</p>
+            <p>No sections added yet. Click &quot;Add Section&quot; to get started.</p>
           </div>
         ) : (
           <div className="space-y-4">
-            {report.sections.map((section, index) => (
+            {report.sections.map((section) => (
               <div key={section.id} className="border rounded-lg p-4">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
@@ -274,7 +274,7 @@ export function ReportBuilder({
                     />
                     <select
                       value={section.chartType}
-                      onChange={(e) => updateSection(section.id, { chartType: e.target.value as any })}
+                      onChange={(e) => updateSection(section.id, { chartType: e.target.value as 'line' | 'bar' | 'area' | 'table' })}
                       className="w-[180px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="line">Line Chart</option>
@@ -284,7 +284,7 @@ export function ReportBuilder({
                     </select>
                     <select
                       value={section.layout}
-                      onChange={(e) => updateSection(section.id, { layout: e.target.value as any })}
+                      onChange={(e) => updateSection(section.id, { layout: e.target.value as 'full' | 'half' | 'quarter' })}
                       className="w-[180px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="full">Full Width</option>

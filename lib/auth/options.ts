@@ -47,9 +47,9 @@ export const authOptions: NextAuthOptions = {
               .where(inArray(roles.id, roleIds))
             names = rs.map((r) => r.name)
           }
-          ;(token as any).roles = names
+          (token as { roles?: string[] }).roles = names
         } catch {
-          ;(token as any).roles = []
+          (token as { roles?: string[] }).roles = []
         }
       }
       // Copy basic fields on sign-in
@@ -61,7 +61,7 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-      ;(session.user as any).roles = (token as any).roles ?? []
+      (session.user as { roles?: string[] }).roles = (token as { roles?: string[] }).roles ?? []
       return session
     },
   },

@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { KpiEngine } from '../../../kpi/engine'
 import { ReportStorageService } from '../../../lib/services/reportStorage'
 import { ProcessedDataPoint } from '../../../lib/services/dataProcessor'
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     console.log('🧪 Testing KPI Engine...')
 
@@ -109,13 +109,15 @@ export async function GET(_request: NextRequest) {
     console.log('🎉 KPI Engine test completed successfully!')
     return NextResponse.json(testResults)
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    const errorStack = error instanceof Error ? error.stack : undefined
     console.error('❌ KPI Engine test failed:', error)
     return NextResponse.json(
       { 
         success: false, 
-        error: error.message,
-        stack: error.stack 
+        error: errorMessage,
+        stack: errorStack 
       },
       { status: 500 }
     )

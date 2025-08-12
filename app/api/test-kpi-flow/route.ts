@@ -36,11 +36,12 @@ export async function GET() {
         }
       }
     })
-  } catch (error: any) {
-    console.error(`❌ Test KPI Flow error: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    console.error(`❌ Test KPI Flow error: ${errorMessage}`)
     return NextResponse.json({
       success: false,
-      error: error.message
+      error: errorMessage
     }, { status: 500 })
   }
 }

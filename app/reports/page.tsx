@@ -14,7 +14,7 @@ import {
   Settings
 } from 'lucide-react'
 
-interface KpiDataPoint {
+interface KpiDataPoint extends Record<string, unknown> {
   kpiName: string
   value: number
   unit: string
@@ -38,7 +38,11 @@ interface Report {
   department: string
   startDate: string
   endDate: string
-  sections: any[]
+  sections: Array<{
+    title: string;
+    kpis: string[];
+    chartType: string;
+  }>
   isPublic: boolean
   status: 'draft' | 'published' | 'archived'
 }
@@ -46,7 +50,7 @@ interface Report {
 export default function ReportsPage() {
   const [kpiDefinitions, setKpiDefinitions] = useState<KpiDefinition[]>([])
   const [departments, setDepartments] = useState<string[]>([])
-  const [_reports, setReports] = useState<Report[]>([])
+  const [reports, setReports] = useState<Report[]>([])
   const [activeTab, setActiveTab] = useState<string>('dashboard')
   const [isCreatingReport, setIsCreatingReport] = useState<boolean>(false)
 
@@ -58,7 +62,7 @@ export default function ReportsPage() {
         const kpis = catalog.kpis || []
         
         // Transform catalog data to match ReportBuilder's expected interface
-        const transformedKpis: KpiDefinition[] = kpis.map((kpi: any) => ({
+        const transformedKpis: KpiDefinition[] = kpis.map((kpi: { name: string; department: string; unit: string }) => ({
           name: kpi.name.toLowerCase().replace(/\s+/g, '_'),
           displayName: kpi.name,
           department: kpi.department,
@@ -108,26 +112,7 @@ export default function ReportsPage() {
     fetchKpiData()
   }, [])
   
-  // Mock reports data
-  const mockReports: Report[] = [
-    {
-      id: '1',
-      title: 'Monthly Front Office Report',
-      description: 'Comprehensive overview of Front Office KPIs',
-      department: 'Front Office',
-      startDate: '2024-01-01',
-      endDate: '2024-01-31',
-      sections: [
-        {
-          title: 'Occupancy Metrics',
-          kpis: ['occupancy_rate', 'average_daily_rate'],
-          chartType: 'line'
-        }
-      ],
-      isPublic: true,
-      status: 'published'
-    }
-  ]
+
 
   const handleSaveReport = (report: Report) => {
     // Save report to database (this would integrate with your ReportStorageService)
@@ -289,7 +274,7 @@ export default function ReportsPage() {
 
         <TabsContent value="reports" className="space-y-6">
           <div className="grid gap-4">
-            {mockReports.map((report) => (
+            {reports.length > 0 ? reports.map((report) => (
               <div key={report.id} className="border rounded-lg p-4 space-y-2 overflow-hidden">
                 <div className="flex items-center justify-between gap-4">
                   <h3 className="font-semibold break-words flex-1">{report.title}</h3>
@@ -313,7 +298,21 @@ export default function ReportsPage() {
                   <span className="capitalize break-words">{report.status}</span>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="text-center p-8 bg-gray-50 rounded-lg">
+                <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No Reports Created Yet</h3>
+                <p className="text-gray-600 mb-4">
+                  Create your first report using the Report Builder to get started.
+                </p>
+                <Button 
+                  onClick={() => setActiveTab('builder')}
+                  className="bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  Create Report
+                </Button>
+              </div>
+            )}
           </div>
         </TabsContent>
 

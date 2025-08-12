@@ -6,7 +6,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell
 } from 'recharts'
-import { Button } from '../components/ui/button'
+
 import { 
   Select,
   SelectContent,
@@ -134,7 +134,7 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
       const allDates = [...new Set(filteredData.map(item => item.date))].sort()
       
       const timeSeriesData = allDates.map(date => {
-        const dataPoint: any = { date }
+        const dataPoint: Record<string, string | number | null> = { date }
         kpisToShow.forEach(kpi => {
           const matchingData = filteredData.find(item => 
             item.date === date && item.kpiName === kpi
@@ -486,15 +486,15 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
       
       case 'bar':
         // Now bar chart shows ONE KPI across departments (much clearer!)
-        if (chartData.length > 0 && chartData[0].kpiName) {
-          const kpiName = chartData[0].kpiName
+        if (chartData.length > 0 && 'kpiName' in chartData[0]) {
+          const kpiName = (chartData[0] as { kpiName: string }).kpiName
           return (
             <BarChart {...commonProps}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="department" />
               <YAxis />
               <Tooltip 
-                formatter={(value, name) => [value, kpiName]}
+                formatter={(value) => [value, kpiName]}
                 labelFormatter={(value) => `Department: ${value}`}
               />
               <Legend content={() => <span className="text-sm font-medium">{kpiName} by Department</span>} />
@@ -529,15 +529,16 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
               ))}
             </Pie>
             <Tooltip 
-              formatter={(value: any, name: any, props: any) => [
-                `${value} (${((value / chartData.reduce((sum: number, item: any) => sum + item.value, 0)) * 100).toFixed(1)}%)`,
-                props.payload.fullName || name
+              formatter={(value: number, name: string, props: { payload?: { fullName?: string } }) => [
+                `${value} (${((value / chartData.reduce((sum: number, item: { value?: number }) => sum + (item.value || 0), 0)) * 100).toFixed(1)}%)`,
+                props.payload?.fullName || name
               ]}
             />
             <Legend 
               verticalAlign="bottom" 
               height={50}
-              formatter={(value: any, entry: any) => (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              formatter={(value: string, entry: any) => (
                 <span className="text-sm font-medium">
                   {value} ({(entry.payload?.percent * 100 || 0).toFixed(1)}%)
                 </span>
