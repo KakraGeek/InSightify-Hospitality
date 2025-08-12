@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://insightify-hospitality.vercel.app/sitemap.xml
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /test-*
+
+# Allow important pages
+Allow: /
+Allow: /dashboard
+Allow: /kpis
+Allow: /reports
+Allow: /ingest
+Allow: /login
+Allow: /signup
+
+# Crawl delay (optional)
+Crawl-delay: 1

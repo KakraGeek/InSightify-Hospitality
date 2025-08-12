@@ -3,10 +3,43 @@ import catalog from '../../kpi/catalog.json'
 import { KpiCard, type KpiAccent } from '../../components/kpi/KpiCard'
 import { BarChart3, DollarSign, Utensils, ClipboardCheck, Timer, Wrench, Bed, FileText, type LucideIcon } from 'lucide-react'
 import { ChipLink } from '../../components/ui/chip'
+import type { Metadata } from 'next'
 
-// Force dynamic rendering to prevent caching
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// Page-specific SEO metadata
+export const metadata: Metadata = {
+  title: 'Hospitality KPIs - Performance Metrics & Analytics',
+  description: 'Explore comprehensive hospitality KPIs including occupancy rates, ADR, RevPAR, food cost percentages, and 50+ performance metrics across all departments. Get insights for your hospitality business.',
+  keywords: [
+    'hospitality KPIs',
+    'hotel performance metrics',
+    'occupancy rate',
+    'ADR metrics',
+    'RevPAR analytics',
+    'hospitality analytics',
+    'hotel KPIs',
+    'performance metrics',
+    'hospitality data',
+    'hotel analytics'
+  ],
+  openGraph: {
+    title: 'Hospitality KPIs - Performance Metrics & Analytics',
+    description: 'Explore comprehensive hospitality KPIs including occupancy rates, ADR, RevPAR, food cost percentages, and 50+ performance metrics across all departments.',
+    images: [
+      {
+        url: '/InSightify_Logo-removebg-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'InSightify Hospitality KPIs - Performance Metrics and Analytics',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hospitality KPIs - Performance Metrics & Analytics',
+    description: 'Explore comprehensive hospitality KPIs including occupancy rates, ADR, RevPAR, and 50+ performance metrics.',
+    images: ['/InSightify_Logo-removebg-preview.png'],
+  },
+}
 
 interface KpiItem {
   department: string

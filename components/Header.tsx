@@ -91,7 +91,7 @@ export default function Header() {
               priority
             />
             <Link href="/" className="font-semibold tracking-wide text-sm text-brand-navy">
-              InSightify
+              InSightify – Hospitality
             </Link>
           </div>
           

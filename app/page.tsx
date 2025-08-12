@@ -3,6 +3,43 @@ import { BarChart3, ShieldCheck, Database, FileSpreadsheet, Users, Building2, Ar
 import { Card, CardHeader, CardTitle, CardDescription } from '../components/components/ui/card'
 import { Button } from '../components/components/ui/button'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+// Page-specific SEO metadata
+export const metadata: Metadata = {
+  title: 'InSightify Hospitality - Management Software & KPI Dashboard',
+  description: 'Transform your hospitality operations with InSightify. Real-time KPIs, performance analytics, and operational insights for hotels, restaurants, and hospitality businesses. Track occupancy rates, ADR, RevPAR, and 50+ metrics across all departments.',
+  keywords: [
+    'hospitality management software',
+    'hotel KPIs dashboard',
+    'hospitality analytics platform',
+    'hotel performance metrics',
+    'hospitality business intelligence',
+    'hotel operations management',
+    'hospitality reporting system',
+    'hotel revenue optimization',
+    'hospitality data analytics',
+    'hotel operational efficiency'
+  ],
+  openGraph: {
+    title: 'InSightify Hospitality - Management Software & KPI Dashboard',
+    description: 'Transform your hospitality operations with real-time KPIs, performance analytics, and operational insights. Track occupancy rates, ADR, RevPAR, and 50+ metrics across all departments.',
+    images: [
+      {
+        url: '/InSightify_Logo-removebg-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'InSightify Hospitality - Operational KPIs and Analytics Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'InSightify Hospitality - Management Software & KPI Dashboard',
+    description: 'Transform your hospitality operations with real-time KPIs, performance analytics, and operational insights.',
+    images: ['/InSightify_Logo-removebg-preview.png'],
+  },
+}
 
 export default function HomePage() {
   return (
@@ -94,7 +131,7 @@ function FeatureCard({
       <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 to-orange-600" />
       <CardHeader className="space-y-3 p-4 md:p-6">
         <div className="flex items-start gap-3">
-          <Icon className="mt-1 h-5 w-5 text-brand-orange flex-shrink-0" aria-hidden />
+          <Icon className="mt-1 h-5 w-5 text-orange-600 flex-shrink-0" aria-hidden />
           <div className="min-w-0 flex-1">
             <CardTitle className="text-base md:text-lg text-brand-navy leading-tight mb-2">
               {title}

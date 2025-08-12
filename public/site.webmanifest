@@ -1,0 +1,36 @@
+{
+  "name": "InSightify Hospitality",
+  "short_name": "InSightify",
+  "description": "Hospitality management software providing real-time KPIs, performance analytics, and operational insights for hotels and hospitality businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F1F5F9",
+  "theme_color": "#1E293B",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/InSightify_Logo-removebg-preview.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/InSightify_Logo-removebg-preview.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/InSightify_Logo-removebg-preview.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "InSightify Hospitality Dashboard"
+    }
+  ]
+}

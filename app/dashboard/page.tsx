@@ -4,10 +4,47 @@ import { KpiCard, type KpiAccent } from '../../components/kpi/KpiCard'
 import { KpiGrid } from '../../components/kpi/KpiGrid'
 import { DollarSign, BarChart3, Utensils, ClipboardCheck, Timer, Wrench, Bed, FileText, TrendingUp, type LucideIcon } from 'lucide-react'
 import { Button } from '../../components/components/ui/button'
+import type { Metadata } from 'next'
 
 // Force dynamic rendering to prevent caching
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
+
+// Page-specific SEO metadata
+export const metadata: Metadata = {
+  title: 'Operational Dashboard - Real-time Hospitality KPIs',
+  description: 'Monitor real-time hospitality KPIs including occupancy rates, ADR, RevPAR, and 50+ performance metrics across all departments. Get actionable insights for your hospitality business.',
+  keywords: [
+    'hospitality dashboard',
+    'hotel KPIs',
+    'real-time metrics',
+    'occupancy rate',
+    'ADR tracking',
+    'RevPAR analytics',
+    'hospitality performance',
+    'hotel operations dashboard',
+    'hospitality metrics',
+    'hotel analytics'
+  ],
+  openGraph: {
+    title: 'Operational Dashboard - Real-time Hospitality KPIs',
+    description: 'Monitor real-time hospitality KPIs including occupancy rates, ADR, RevPAR, and 50+ performance metrics across all departments.',
+    images: [
+      {
+        url: '/InSightify_Logo-removebg-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'InSightify Hospitality Dashboard - Real-time KPIs and Analytics',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Operational Dashboard - Real-time Hospitality KPIs',
+    description: 'Monitor real-time hospitality KPIs including occupancy rates, ADR, RevPAR, and 50+ performance metrics.',
+    images: ['/InSightify_Logo-removebg-preview.png'],
+  },
+}
 
 interface KpiItem {
   department: string
