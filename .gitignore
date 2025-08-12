@@ -116,3 +116,6 @@ playwright-report/
 # Build artifacts
 *.tgz
 *.tar.gz
+
+# Generated data files
+.data-storage.json
