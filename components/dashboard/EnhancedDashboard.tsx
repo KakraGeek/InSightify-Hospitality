@@ -100,18 +100,43 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
         value: total
       }))
     } else {
-      // For other charts, group by date and KPI
-      const grouped = filteredData.reduce((acc, item) => {
-        const date = new Date(item.date).toLocaleDateString()
-        if (!acc[date]) acc[date] = {}
-        acc[date][item.kpiName] = item.value
-        acc[date].date = date
-        return acc
-      }, {} as Record<string, any>)
+      // For time-series charts (line, area, bar), create proper time-series data
+      const kpisToShow = availableKPIs.slice(0, 5) // Limit to 5 KPIs for readability
       
-      return Object.values(grouped).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      // Get unique dates and sort them
+      const uniqueDates = [...new Set(filteredData.map(item => item.date))].sort()
+      
+      // Create time-series data structure
+      const timeSeriesData = uniqueDates.map(date => {
+        const dataPoint: any = { date }
+        
+        // For each KPI, find the value for this date
+        kpisToShow.forEach(kpi => {
+          const matchingData = filteredData.find(item => 
+            item.date === date && item.kpiName === kpi
+          )
+          dataPoint[kpi] = matchingData ? matchingData.value : null
+        })
+        
+        return dataPoint
+      })
+      
+      // Filter out data points where all KPIs are null
+      const finalData = timeSeriesData.filter(dataPoint => 
+        kpisToShow.some(kpi => dataPoint[kpi] !== null)
+      )
+      
+      // Debug logging
+      console.log(`📊 Chart data for ${selectedChartType} chart:`, {
+        kpisToShow,
+        uniqueDates,
+        timeSeriesData: timeSeriesData.slice(0, 3), // Show first 3 for debugging
+        finalData: finalData.slice(0, 3)
+      })
+      
+      return finalData
     }
-  }, [filteredData, selectedChartType])
+  }, [filteredData, selectedChartType, availableKPIs])
 
   // Generate colors for charts
   const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16']
@@ -127,9 +152,15 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
         return (
           <LineChart {...commonProps}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis 
+              dataKey="date" 
+              tickFormatter={(value) => new Date(value).toLocaleDateString()}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip 
+              labelFormatter={(value) => new Date(value).toLocaleDateString()}
+              formatter={(value, name) => [value, name]}
+            />
             <Legend />
             {availableKPIs.slice(0, 5).map((kpi, index) => (
               <Line
@@ -139,6 +170,8 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
                 stroke={colors[index % colors.length]}
                 strokeWidth={2}
                 dot={{ r: 4 }}
+                connectNulls={true}
+                isAnimationActive={true}
               />
             ))}
           </LineChart>
@@ -148,9 +181,15 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
         return (
           <AreaChart {...commonProps}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis 
+              dataKey="date" 
+              tickFormatter={(value) => new Date(value).toLocaleDateString()}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip 
+              labelFormatter={(value) => new Date(value).toLocaleDateString()}
+              formatter={(value, name) => [value, name]}
+            />
             <Legend />
             {availableKPIs.slice(0, 5).map((kpi, index) => (
               <Area
@@ -160,6 +199,8 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
                 fill={colors[index % colors.length]}
                 stroke={colors[index % colors.length]}
                 fillOpacity={0.3}
+                connectNulls={true}
+                isAnimationActive={true}
               />
             ))}
           </AreaChart>
@@ -169,15 +210,22 @@ export function EnhancedDashboard({ kpiData, departments }: EnhancedDashboardPro
         return (
           <BarChart {...commonProps}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis 
+              dataKey="date" 
+              tickFormatter={(value) => new Date(value).toLocaleDateString()}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip 
+              labelFormatter={(value) => new Date(value).toLocaleDateString()}
+              formatter={(value, name) => [value, name]}
+            />
             <Legend />
             {availableKPIs.slice(0, 5).map((kpi, index) => (
               <Bar
                 key={kpi}
                 dataKey={kpi}
                 fill={colors[index % colors.length]}
+                isAnimationActive={true}
               />
             ))}
           </BarChart>

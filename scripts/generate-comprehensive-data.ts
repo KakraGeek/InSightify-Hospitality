@@ -234,11 +234,11 @@ function generateSampleData(): StorageData {
     const revpar = 13125 / 50
 
     kpis.push(
-      { kpiName: 'Occupancy Rate', department: 'Front Office', value: occupancyRate, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Average Daily Rate (ADR)', department: 'Front Office', value: adr, date: now.toISOString(), period: 'daily', unit: 'GHS/room' },
-      { kpiName: 'Revenue per Available Room (RevPAR)', department: 'Front Office', value: revpar, date: now.toISOString(), period: 'daily', unit: 'GHS/room' },
-      { kpiName: 'Cancellation Rate', department: 'Front Office', value: (2 / 12) * 100, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'No-Show Rate', department: 'Front Office', value: (1 / 12) * 100, date: now.toISOString(), period: 'daily', unit: '%' }
+      { kpiName: 'Occupancy Rate', department: 'Front Office', value: occupancyRate, date: new Date(now.getTime() - (0 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'Average Daily Rate (ADR)', department: 'Front Office', value: adr, date: new Date(now.getTime() - (1 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' },
+      { kpiName: 'Revenue per Available Room (RevPAR)', department: 'Front Office', value: revpar, date: new Date(now.getTime() - (2 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' },
+      { kpiName: 'Cancellation Rate', department: 'Front Office', value: (2 / 12) * 100, date: new Date(now.getTime() - (3 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'No-Show Rate', department: 'Front Office', value: (1 / 12) * 100, date: new Date(now.getTime() - (4 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
     )
 
     // Food & Beverage KPIs
@@ -247,25 +247,25 @@ function generateSampleData(): StorageData {
     const revpash = 23400 / 120
 
     kpis.push(
-      { kpiName: 'Covers', department: 'Food & Beverage', value: 156, date: now.toISOString(), period: 'daily', unit: 'count' },
-      { kpiName: 'Average Check', department: 'Food & Beverage', value: avgCheck, date: now.toISOString(), period: 'daily', unit: 'GHS/guest' },
-      { kpiName: 'Food Cost %', department: 'Food & Beverage', value: foodCostPercent, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'RevPASH', department: 'Food & Beverage', value: revpash, date: now.toISOString(), period: 'daily', unit: 'GHS/seat-hour' },
-      { kpiName: 'Table Turnover Rate', department: 'Food & Beverage', value: 3.2, date: now.toISOString(), period: 'daily', unit: 'turns/hour' }
+      { kpiName: 'Covers', department: 'Food & Beverage', value: 156, date: new Date(now.getTime() - (5 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'count' },
+      { kpiName: 'Average Check', department: 'Food & Beverage', value: avgCheck, date: new Date(now.getTime() - (6 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/guest' },
+      { kpiName: 'Food Cost %', department: 'Food & Beverage', value: foodCostPercent, date: new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'RevPASH', department: 'Food & Beverage', value: revpash, date: new Date(now.getTime() - (8 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/seat-hour' },
+      { kpiName: 'Table Turnover Rate', department: 'Food & Beverage', value: 3.2, date: new Date(now.getTime() - (9 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'turns/hour' }
     )
 
     // Housekeeping KPIs
     kpis.push(
-      { kpiName: 'Rooms Cleaned per Shift', department: 'Housekeeping', value: 45, date: now.toISOString(), period: 'daily', unit: 'rooms' },
-      { kpiName: 'Average Cleaning Time', department: 'Housekeeping', value: 25, date: now.toISOString(), period: 'daily', unit: 'minutes' },
-      { kpiName: 'Inspection Pass Rate', department: 'Housekeeping', value: 96, date: now.toISOString(), period: 'daily', unit: '%' }
+      { kpiName: 'Rooms Cleaned per Shift', department: 'Housekeeping', value: 45, date: new Date(now.getTime() - (10 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'rooms' },
+      { kpiName: 'Average Cleaning Time', department: 'Housekeeping', value: 25, date: new Date(now.getTime() - (11 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'minutes' },
+      { kpiName: 'Inspection Pass Rate', department: 'Housekeeping', value: 96, date: new Date(now.getTime() - (12 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
     )
 
     // Maintenance KPIs
     kpis.push(
-      { kpiName: 'Mean Time To Repair (MTTR)', department: 'Maintenance/Engineering', value: 2.5, date: now.toISOString(), period: 'daily', unit: 'hours' },
-      { kpiName: 'Mean Time Between Failures (MTBF)', department: 'Maintenance/Engineering', value: 168, date: now.toISOString(), period: 'daily', unit: 'hours' },
-      { kpiName: 'PM Compliance Rate', department: 'Maintenance/Engineering', value: 92, date: now.toISOString(), period: 'daily', unit: '%' }
+      { kpiName: 'Mean Time To Repair (MTTR)', department: 'Maintenance/Engineering', value: 2.5, date: new Date(now.getTime() - (13 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'hours' },
+      { kpiName: 'Mean Time Between Failures (MTBF)', department: 'Maintenance/Engineering', value: 168, date: new Date(now.getTime() - (14 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'hours' },
+      { kpiName: 'PM Compliance Rate', department: 'Maintenance/Engineering', value: 92, date: new Date(now.getTime() - (15 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
     )
 
     // Sales & Marketing KPIs
@@ -273,9 +273,9 @@ function generateSampleData(): StorageData {
     const roas = 87500 / 5000
 
     kpis.push(
-      { kpiName: 'Direct Booking Ratio', department: 'Sales & Marketing', value: directBookingRatio, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Website Conversion Rate', department: 'Sales & Marketing', value: 2.8, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Return on Ad Spend (ROAS)', department: 'Sales & Marketing', value: roas, date: now.toISOString(), period: 'daily', unit: 'x' }
+      { kpiName: 'Direct Booking Ratio', department: 'Sales & Marketing', value: directBookingRatio, date: new Date(now.getTime() - (16 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'Website Conversion Rate', department: 'Sales & Marketing', value: 2.8, date: new Date(now.getTime() - (17 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'Return on Ad Spend (ROAS)', department: 'Sales & Marketing', value: roas, date: new Date(now.getTime() - (18 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'x' }
     )
 
     // Finance KPIs
@@ -284,9 +284,9 @@ function generateSampleData(): StorageData {
     const trevpar = 156500 / 50
 
     kpis.push(
-      { kpiName: 'Gross Operating Profit (GOP) Margin', department: 'Finance', value: gopMargin, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'GOPPAR', department: 'Finance', value: goppar, date: now.toISOString(), period: 'daily', unit: 'GHS/room' },
-      { kpiName: 'Total RevPAR (TRevPAR)', department: 'Finance', value: trevpar, date: now.toISOString(), period: 'daily', unit: 'GHS/room' }
+      { kpiName: 'Gross Operating Profit (GOP) Margin', department: 'Finance', value: gopMargin, date: new Date(now.getTime() - (19 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'GOPPAR', department: 'Finance', value: goppar, date: new Date(now.getTime() - (20 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' },
+      { kpiName: 'Total RevPAR (TRevPAR)', department: 'Finance', value: trevpar, date: new Date(now.getTime() - (21 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'GHS/room' }
     )
 
     // HR KPIs
@@ -295,9 +295,9 @@ function generateSampleData(): StorageData {
     const absenteeismRate = (86 / 1720) * 100
 
     kpis.push(
-      { kpiName: 'Staff-to-Room Ratio', department: 'HR', value: staffToRoomRatio, date: now.toISOString(), period: 'daily', unit: 'staff/room' },
-      { kpiName: 'Employee Turnover Rate', department: 'HR', value: turnoverRate, date: now.toISOString(), period: 'daily', unit: '%' },
-      { kpiName: 'Absenteeism Rate', department: 'HR', value: absenteeismRate, date: now.toISOString(), period: 'daily', unit: '%' }
+      { kpiName: 'Staff-to-Room Ratio', department: 'HR', value: staffToRoomRatio, date: new Date(now.getTime() - (22 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: 'staff/room' },
+      { kpiName: 'Employee Turnover Rate', department: 'HR', value: turnoverRate, date: new Date(now.getTime() - (23 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' },
+      { kpiName: 'Absenteeism Rate', department: 'HR', value: absenteeismRate, date: new Date(now.getTime() - (24 * 24 * 60 * 60 * 1000)).toISOString(), period: 'daily', unit: '%' }
     )
   }
 
